@@ -1,0 +1,13 @@
+{
+    "webserver": {
+        "port": 8888,
+        "keystoreFile": "",
+        "keystorePassword": ""
+    },
+    "database": {
+        "host": "localhost",
+        "database": "web",
+        "username": "root",
+        "password": ""
+    }
+}

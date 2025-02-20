@@ -1,0 +1,14 @@
+---
+import Layout from '../components/Layout.astro';
+import SearchBar from '../components/search/SearchBar';
+import Header from '../components/Header.astro';
+---
+
+<Layout title="Astro Basics">
+    <Header background={false} />
+
+    <div class="absolute top-[40%] left-40 w-fit">
+        <SearchBar client:load />
+        <p>web search</p>
+    </div>
+</Layout>

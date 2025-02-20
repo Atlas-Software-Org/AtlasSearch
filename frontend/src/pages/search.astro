@@ -1,0 +1,15 @@
+---
+import Layout from '../components/Layout.astro';
+import SearchResults from '../components/search/SearchResults';
+import InlineSearchBar from '../components/search/InlineSearchBar';
+import Header from '../components/Header.astro';
+---
+
+<Layout title="Astro Basics">
+    <Header background={true}>
+        <span class="w-4"></span>
+        <InlineSearchBar client:only />
+    </Header>
+
+    <SearchResults client:only />
+</Layout>
