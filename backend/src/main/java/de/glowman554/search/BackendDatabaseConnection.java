@@ -63,6 +63,35 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
         });
     }
 
+    public void insertSearchHistory(String username, String query) throws SQLException {
+        tryExecute("INSERT INTO searchHistory (username, query) VALUES (?, ?)", statement -> {
+            statement.setString(1, username);
+            statement.setString(2, query);
+            statement.execute();
+        });
+    }
+
+    public void insertVisitHistory(String username, String link) throws SQLException {
+        tryExecute("INSERT INTO visitHistory (username, link) VALUES (?, ?)", statement -> {
+            statement.setString(1, username);
+            statement.setString(2, link);
+            statement.execute();
+        });
+    }
+
+    public UserConfiguration loadUserConfiguration(String username) {
+        return tryExecute("SELECT shouldKeepHistory FROM users WHERE username = ?", statement -> {
+            statement.setString(1, username);
+            statement.execute();
+        }, resultSet -> {
+            if (!resultSet.next()) {
+                return null;
+            }
+
+            return new UserConfiguration(resultSet.getBoolean("shouldKeepHistory"));
+        });
+    }
+
     public ArrayList<SearchResult> performSearch(String query, int page) throws SQLException {
         return execute("""
                 SELECT link, title, description, shortText, MATCH (`title`, `link`, `content`, `description`, `keywords`) AGAINST (?) as `score`

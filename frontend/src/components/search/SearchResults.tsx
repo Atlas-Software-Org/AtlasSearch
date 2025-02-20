@@ -28,18 +28,22 @@ function SearchResultContainer(props: SearchResult) {
 }
 
 export default function () {
-    const q = new URLSearchParams(window.location.search).get('q');
+    const q = new URLSearchParams(window.location.search).get('q') || 'test';
+    const encodeParams = (page: number) => new URLSearchParams({ q, page: page.toString() }).toString();
 
+    const page = parseInt(new URLSearchParams(window.location.search).get('page') ?? '0');
     return (
-        <Show when={q} fallback={<p>No search query</p>}>
-            <Query f={() => timed(() => fetchAndValidate(searchResultsSchema, () => fetch('/api/v1/search?q=' + encodeURIComponent(q!))), 'search')}>
-                {([results, time]) => (
-                    <>
-                        <For each={results}>{(result) => <SearchResultContainer {...result} />}</For>
-                        <p>Search took {time}ms</p>
-                    </>
-                )}
-            </Query>
-        </Show>
+        <Query f={() => timed(() => fetchAndValidate(searchResultsSchema, () => fetch('/api/v1/search?' + encodeParams(page))), 'search')}>
+            {([results, time]) => (
+                <>
+                    <For each={results}>{(result) => <SearchResultContainer {...result} />}</For>
+                    <p>Search took {time}ms</p>
+                    <Show when={page > 0}>
+                        <a href={'/search?' + encodeParams(page - 1)}>Previous</a>
+                    </Show>
+                    <a href={'/search?' + encodeParams(page + 1)}>Next</a>
+                </>
+            )}
+        </Query>
     );
 }

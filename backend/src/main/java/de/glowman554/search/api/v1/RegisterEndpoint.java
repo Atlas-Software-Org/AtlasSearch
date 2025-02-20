@@ -18,7 +18,7 @@ public class RegisterEndpoint extends JsonHandler<UserAndPassword> {
     public void handle(@NotNull Context context, UserAndPassword instance) throws Exception {
         if (instance.getUsername().isEmpty() || instance.getPassword().isEmpty()) {
             context.status(400);
-            context.result("Bad request");
+            context.result("Bad request - missing username or password");
             return;
         }
 

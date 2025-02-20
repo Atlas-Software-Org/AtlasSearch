@@ -4,6 +4,7 @@ import de.glowman554.search.Main;
 import de.glowman554.search.api.BaseHandler;
 import de.glowman554.search.data.SearchResult;
 import de.glowman554.search.data.User;
+import de.glowman554.search.data.UserConfiguration;
 import de.glowman554.search.utils.Logger;
 import io.javalin.http.Context;
 import net.shadew.json.JsonNode;
@@ -17,13 +18,16 @@ public class SearchEndpoint extends BaseHandler {
         String query = ctx.queryParam("q");
         if (query == null || query.isEmpty()) {
             ctx.status(400);
-            ctx.result("Bad request");
+            ctx.result("Bad request - missing query parameter");
             return;
         }
 
         User user = authenticated(ctx, false);
         if (user != null) {
-            Logger.log("User " + user.getUsername() + " searched for " + query);
+            UserConfiguration userConfiguration = Main.getDatabaseConnection().loadUserConfiguration(user.getUsername());
+            if (userConfiguration.shouldKeepHistory()) {
+                Main.getDatabaseConnection().insertSearchHistory(user.getUsername(), query);
+            }
         }
 
         String pageStr = ctx.queryParam("page");
