@@ -29,8 +29,7 @@ export default function (props: Props) {
                 <input
                     type="text"
                     class={'bg-zinc-500 select-auto ' + (props.small ? 'w-[25%] rounded-sm p-1 text-xl' : 'w-2xl rounded-xl p-2 text-3xl opacity-90')}
-                    placeholder="Search with <name>"
-                    size="20"
+                    placeholder="Search with Atlas Search"
                     value={query()}
                     onChange={(e) => setQuery(e.currentTarget.value)}
                     required

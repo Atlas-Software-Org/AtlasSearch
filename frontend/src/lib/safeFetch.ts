@@ -12,6 +12,8 @@ export function validateOrThrow<T>(schema: ZodSchema<T>, data: unknown): T {
 export async function saveFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
 export async function saveFetch<T>(input: RequestInfo | URL, init: RequestInit, schema: ZodSchema<T>): Promise<T>;
 export async function saveFetch<T>(input: RequestInfo | URL, init?: RequestInit, schema?: ZodSchema<T>): Promise<Response | T> {
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
+
     const response = await fetch(input, init);
     if (!response.ok) {
         let errorMessage = '';

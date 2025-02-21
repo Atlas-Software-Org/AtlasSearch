@@ -15,7 +15,7 @@ public class HttpClient {
     private static final String proxyPort = System.getenv("PROXY_PORT");
     private static final String proxyHost = System.getenv("PROXY_HOST");
 
-    private static final String userAgent = "YunaBot";
+    private static final String userAgent = "AtlasSearch";
 
     public static String get(String url, Map<String, String> headers, boolean proxy) throws IOException, RateLimitException {
 
