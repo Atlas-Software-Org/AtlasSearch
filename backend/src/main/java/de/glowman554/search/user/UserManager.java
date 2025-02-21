@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class UserManager {
     private final String defaultProfilePicture = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Anthro_vixen_colored.jpg/220px-Anthro_vixen_colored.jpg";
-    private BackendDatabaseConnection databaseConnection;
+    private final BackendDatabaseConnection databaseConnection;
 
     public UserManager(BackendDatabaseConnection databaseConnection) {
         this.databaseConnection = databaseConnection;

@@ -63,6 +63,14 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
         });
     }
 
+    public void updateUserProfilePicture(String username, String profilePictureUrl) throws SQLException {
+        tryExecute("UPDATE users SET profilePictureUrl = ? WHERE username = ?", statement -> {
+            statement.setString(1, profilePictureUrl);
+            statement.setString(2, username);
+            statement.execute();
+        });
+    }
+
     public void insertSearchHistory(String username, String query) throws SQLException {
         tryExecute("INSERT INTO searchHistory (username, query) VALUES (?, ?)", statement -> {
             statement.setString(1, username);
@@ -114,6 +122,15 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
                         resultSet.getDouble("score")));
             }
             return results;
+        });
+    }
+
+    public void insertTimingEvent(String username, String key, int time) {
+        tryExecute("INSERT INTO timingEvents (username, timingKey, duration) VALUES (?, ?, ?)", statement -> {
+            statement.setString(1, username);
+            statement.setString(2, key);
+            statement.setLong(3, time);
+            statement.execute();
         });
     }
 }

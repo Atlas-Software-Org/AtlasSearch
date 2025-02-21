@@ -14,6 +14,9 @@ public class Config extends ConfigFile {
     @Saved(remap = Savable.class)
     private DatabaseConfig database = new DatabaseConfig();
 
+    @Saved(remap = Savable.class)
+    private FileThingConfig fileThing = new FileThingConfig();
+
     public Config() {
         super(new File("config.json"));
     }
@@ -24,6 +27,10 @@ public class Config extends ConfigFile {
 
     public DatabaseConfig getDatabase() {
         return database;
+    }
+
+    public FileThingConfig getFileThing() {
+        return fileThing;
     }
 
     public static class WebserverConfig extends AutoSavable {
@@ -48,6 +55,21 @@ public class Config extends ConfigFile {
 
         public String getKeystorePassword() {
             return keystorePassword;
+        }
+    }
+
+    public static class FileThingConfig extends AutoSavable {
+        @Saved
+        private String authToken = "";
+        @Saved
+        private String uploadServer = "";
+
+        public String getAuthToken() {
+            return authToken;
+        }
+
+        public String getUploadServer() {
+            return uploadServer;
         }
     }
 }

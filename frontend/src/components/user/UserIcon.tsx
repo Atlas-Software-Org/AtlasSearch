@@ -10,7 +10,7 @@ function NotLoggedIn() {
         <>
             <div class="center hover:cursor-pointer" onClick={() => setVisible(!visible())}>
                 <p>Sign Up</p>
-                <img class="ml-1 h-8 w-8 rounded-full bg-zinc-700" />
+                <img class="ml-1 h-8 w-8 rounded-full bg-zinc-900" />
             </div>
             <Overlay visible={visible()}>
                 <div class="field">
@@ -28,7 +28,7 @@ function LoggedIn(props: User) {
         <>
             <div class="center hover:cursor-pointer" onClick={() => setVisible(!visible())}>
                 <p>{props.username}</p>
-                <img class="ml-1 h-8 w-8 rounded-full bg-zinc-700" src={props.profilePictureUrl} />
+                <img class="ml-1 h-8 w-8 rounded-full bg-zinc-900" src={props.profilePictureUrl} />
             </div>
             <Overlay visible={visible()}>
                 <div class="field">Test</div>

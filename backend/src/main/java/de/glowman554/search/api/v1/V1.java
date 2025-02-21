@@ -7,7 +7,10 @@ public class V1 {
         app.post("/api/v1/login", new LoginEndpoint());
         app.post("/api/v1/register", new RegisterEndpoint());
         app.get("/api/v1/info", new InfoEndpoint());
+        app.post("/api/v1/changeProfilePicture", new ChangeProfilePictureEndpoint());
 
         app.get("/api/v1/search", new SearchEndpoint());
+
+        app.post("/api/v1/timing", new TimingEndpoint());
     }
 }

@@ -7,6 +7,8 @@ import de.glowman554.crawler.core.queue.AbstractQueue;
 import de.glowman554.search.api.v1.V1;
 import de.glowman554.search.user.UserManager;
 import de.glowman554.search.utils.Logger;
+import de.glowman554.search.utils.MutedException;
+import de.glowman554.search.utils.filething.FileThingApi;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 import net.shadew.json.Json;
@@ -22,7 +24,10 @@ public class Main {
     private static BackendDatabaseConnection databaseConnection;
     private static UserManager userManager;
     private static Crawler crawler;
+    private static FileThingApi fileThingApi;
+
     private static File frontend = new File("frontend/dist");
+
 
     public static void main(String[] args) throws SQLException {
         Config config = new Config();
@@ -33,6 +38,7 @@ public class Main {
         databaseConnection = new BackendDatabaseConnection(databaseConfig);
 
         userManager = new UserManager(databaseConnection);
+        fileThingApi = new FileThingApi(config.getFileThing().getUploadServer(), config.getFileThing().getAuthToken());
 
         initCrawler(databaseConnection);
         initApiServer(config);
@@ -79,7 +85,9 @@ public class Main {
         });
 
         app.exception(Exception.class, (exception, context) -> {
-            Logger.exception(exception);
+            if (!(exception instanceof MutedException)) {
+                Logger.exception(exception);
+            }
 
             context.status(500);
             context.header("Content-Type", "application/json");
@@ -92,7 +100,6 @@ public class Main {
 
         app.error(404, context -> {
             context.header("Content-Type", "text/html");
-            Logger.log("404: %s", new File(frontend, "404.html").getAbsolutePath());
             context.result(new FileInputStream(new File(frontend, "404.html")));
         });
 
@@ -117,6 +124,10 @@ public class Main {
 
     public static BackendDatabaseConnection getDatabaseConnection() {
         return databaseConnection;
+    }
+
+    public static FileThingApi getFileThingApi() {
+        return fileThingApi;
     }
 
     public static Crawler getCrawler() {

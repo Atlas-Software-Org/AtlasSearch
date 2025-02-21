@@ -9,5 +9,9 @@
         "database": "web",
         "username": "root",
         "password": ""
+    },
+    "fileThing": {
+        "authToken": "NY49XcSGDrm8RI3cgrpEQ3FxLsGii8fxTFALrLIGmuXpEMmQ5c0PMQyoqnbtD3yQUJ3jThf52mGA79XbbEflTIRBknvQcbI4VgiC",
+        "uploadServer": "https://filething.glowman554.de"
     }
 }

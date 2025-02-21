@@ -79,5 +79,20 @@ public class Migrations {
                     )
                     """);
         }, connection);
+
+        new Migration("timing_events", (_, statement) -> {
+            statement.execute("""
+                    create table `timingEvents` (
+                      `id` int NOT NULL AUTO_INCREMENT,
+                      `username` varchar(100) NULL,
+                      `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                      `timingKey` varchar(100) NOT NULL,
+                      `duration` int NOT NULL,
+                      PRIMARY KEY (`id`),
+                      KEY `timingEvents_users_FK` (`username`),
+                      CONSTRAINT `timingEvents_users_FK` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+                    )
+                    """);
+        }, connection);
     }
 }

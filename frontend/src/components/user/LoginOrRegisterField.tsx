@@ -3,6 +3,7 @@ import { validatePassword, passwordOk, type PasswordResult, defaultPasswordResul
 import { QueryContext } from '../base/query/QueryController';
 import { withQuery } from '../base/query/Query';
 import Loading, { LoadingContext } from '../base/loading/Loading';
+import { timed } from '../../timed';
 
 function PasswordValidationResult(props: PasswordResult) {
     return (
@@ -29,9 +30,10 @@ function Wrapped() {
     });
 
     const submit = () => {
-        const url = creationMode() ? '/api/v1/register' : '/api/v1/login';
+        const mode = creationMode();
+        const url = mode ? '/api/v1/register' : '/api/v1/login';
         withQuery(
-            () => fetch(url, { method: 'POST', body: JSON.stringify({ username: username(), password: password() }) }),
+            () => timed(() => fetch(url, { method: 'POST', body: JSON.stringify({ username: username(), password: password() }) }), mode ? 'register' : 'login'),
             loading,
             true,
             (t) => {
