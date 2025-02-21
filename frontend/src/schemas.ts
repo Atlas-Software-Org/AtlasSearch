@@ -25,3 +25,10 @@ export type SearchResult = z.infer<typeof searchResultSchema>;
 
 export const searchResultsSchema = z.array(searchResultSchema);
 export type SearchResults = z.infer<typeof searchResultSchema>;
+
+export const uploadResultSchema = z.object({
+    url: z.string().url(),
+    uploadToken: z.string(),
+    id: z.string(),
+});
+export type UploadResult = z.infer<typeof uploadResultSchema>;

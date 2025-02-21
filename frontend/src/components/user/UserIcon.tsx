@@ -3,6 +3,7 @@ import Overlay from '../base/generic/Overlay';
 import LoginOrRegisterField from './LoginOrRegisterField';
 import UserProvider, { UserContext } from './UserProvider';
 import type { User } from '../../schemas';
+import UploadProfilePicture from './UploadProfilePicture';
 
 function NotLoggedIn() {
     const [visible, setVisible] = createSignal(false);
@@ -31,7 +32,10 @@ function LoggedIn(props: User) {
                 <img class="ml-1 h-8 w-8 rounded-full bg-zinc-900" src={props.profilePictureUrl} />
             </div>
             <Overlay visible={visible()}>
-                <div class="field">Test</div>
+                <div class="field">
+                    Test
+                    <UploadProfilePicture />
+                </div>
             </Overlay>
         </>
     );
