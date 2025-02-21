@@ -38,3 +38,6 @@ build/
 .DS_Store
 
 test_db/
+
+config.json
+crawler.json
