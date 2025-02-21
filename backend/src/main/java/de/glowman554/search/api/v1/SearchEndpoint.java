@@ -5,7 +5,6 @@ import de.glowman554.search.api.BaseHandler;
 import de.glowman554.search.data.SearchResult;
 import de.glowman554.search.data.User;
 import de.glowman554.search.data.UserConfiguration;
-import de.glowman554.search.utils.Logger;
 import io.javalin.http.Context;
 import net.shadew.json.JsonNode;
 import org.jetbrains.annotations.NotNull;

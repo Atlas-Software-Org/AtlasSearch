@@ -5,6 +5,8 @@ import de.glowman554.config.auto.Saved;
 
 public class SearchResult extends AutoSavable {
     @Saved
+    public double score;
+    @Saved
     private String link;
     @Saved
     private String title;
@@ -12,8 +14,6 @@ public class SearchResult extends AutoSavable {
     private String description;
     @Saved
     private String shortText;
-    @Saved
-    public double score;
 
     public SearchResult(String link, String title, String description, String shortText, double score) {
         this.link = link;

@@ -31,6 +31,14 @@ public class ThreadPool {
         startThreads(maxThreads);
     }
 
+    public static void safeSleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void startThreads(int size) {
         for (int i = 0; i < size; i++) {
             Thread thread = new Thread(this::poll);
@@ -75,14 +83,6 @@ public class ThreadPool {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }
-    }
-
-    public static void safeSleep(int millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 

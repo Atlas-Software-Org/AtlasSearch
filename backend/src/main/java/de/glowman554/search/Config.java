@@ -41,6 +41,9 @@ public class Config extends ConfigFile {
         @Saved
         private String keystorePassword = "";
 
+        @Saved
+        private File frontendPath = new File("frontend/dist");
+
         public boolean isSSL() {
             return !(keystoreFile.isEmpty() || keystorePassword.isEmpty());
         }
@@ -55,6 +58,10 @@ public class Config extends ConfigFile {
 
         public String getKeystorePassword() {
             return keystorePassword;
+        }
+
+        public File getFrontendPath() {
+            return frontendPath;
         }
     }
 

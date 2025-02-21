@@ -11,13 +11,12 @@ import java.util.ArrayList;
 
 public class Validator {
     private static final ArrayList<String> allowedExtensions = new ArrayList<>();
+    private static final ConstrainCollection<String> validator = new ConstrainCollection<>();
 
     static {
         allowedExtensions.add("html");
         allowedExtensions.add("php");
     }
-
-    private static final ConstrainCollection<String> validator = new ConstrainCollection<>();
 
     static {
         validator.add(new WikipediaConstrain());

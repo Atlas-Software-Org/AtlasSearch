@@ -8,7 +8,6 @@ import java.security.SecureRandom;
 import java.sql.SQLException;
 
 public class UserManager {
-    private final String defaultProfilePicture = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Anthro_vixen_colored.jpg/220px-Anthro_vixen_colored.jpg";
     private final BackendDatabaseConnection databaseConnection;
 
     public UserManager(BackendDatabaseConnection databaseConnection) {
@@ -46,6 +45,7 @@ public class UserManager {
             throw new IllegalArgumentException(rejectionReason.getMessage());
         }
         String passwordHash = hashPassword(password);
+        String defaultProfilePicture = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Anthro_vixen_colored.jpg/220px-Anthro_vixen_colored.jpg";
         databaseConnection.createNewUser(username, passwordHash, defaultProfilePicture);
         return createSession(username);
     }

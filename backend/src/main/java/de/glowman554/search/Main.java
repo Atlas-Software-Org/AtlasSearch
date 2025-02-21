@@ -1,5 +1,6 @@
 package de.glowman554.search;
 
+import de.glowman554.config.auto.AutoSavable;
 import de.glowman554.crawler.core.Crawler;
 import de.glowman554.crawler.core.CrawlerDatabaseConnection;
 import de.glowman554.crawler.core.IPageInserter;
@@ -8,6 +9,7 @@ import de.glowman554.search.api.v1.V1;
 import de.glowman554.search.user.UserManager;
 import de.glowman554.search.utils.Logger;
 import de.glowman554.search.utils.MutedException;
+import de.glowman554.search.utils.config.FileProcessor;
 import de.glowman554.search.utils.filething.FileThingApi;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
@@ -26,10 +28,8 @@ public class Main {
     private static Crawler crawler;
     private static FileThingApi fileThingApi;
 
-    private static File frontend = new File("frontend/dist");
-
-
     public static void main(String[] args) throws SQLException {
+        loadCustomTypes();
         Config config = new Config();
         config.load();
         Logger.log("Config loaded");
@@ -42,6 +42,10 @@ public class Main {
 
         initCrawler(databaseConnection);
         initApiServer(config);
+    }
+
+    private static void loadCustomTypes() {
+        AutoSavable.register(File.class, new FileProcessor());
     }
 
     private static void initCrawler(BaseDatabaseConnection base) {
@@ -58,6 +62,7 @@ public class Main {
         Javalin app = Javalin.create(javalinConfig -> {
             Config.WebserverConfig webserverConfig = config.getWebserver();
 
+            File frontend = webserverConfig.getFrontendPath();
             if (frontend.exists()) {
                 javalinConfig.staticFiles.add(staticFileConfig -> {
                     staticFileConfig.hostedPath = "/";
@@ -100,7 +105,7 @@ public class Main {
 
         app.error(404, context -> {
             context.header("Content-Type", "text/html");
-            context.result(new FileInputStream(new File(frontend, "404.html")));
+            context.result(new FileInputStream(new File(config.getWebserver().getFrontendPath(), "404.html")));
         });
 
         app.before(context -> context.header("Access-Control-Allow-Origin", "*"));
