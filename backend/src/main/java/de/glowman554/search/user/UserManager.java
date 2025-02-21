@@ -61,6 +61,19 @@ public class UserManager {
         return createSession(username);
     }
 
+    public void changePasswordAndDeleteSessions(User user, String oldPassword, String newPassword) {
+        if (!verifyPassword(oldPassword, user.getPasswordHash())) {
+            throw new IllegalArgumentException("Invalid password");
+        }
+        PasswordValidator.RejectionReason rejectionReason = PasswordValidator.testPassword(newPassword);
+        if (rejectionReason != null) {
+            throw new IllegalArgumentException(rejectionReason.getMessage());
+        }
+        String passwordHash = hashPassword(newPassword);
+        databaseConnection.updateUserPassword(user.getUsername(), passwordHash);
+        databaseConnection.deleteUserSessions(user.getUsername());
+    }
+
     public User getSession(String token, boolean required) {
         User user = databaseConnection.loadUserByToken(token);
         if (user == null && required) {

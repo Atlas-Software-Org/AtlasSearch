@@ -71,6 +71,21 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
         });
     }
 
+    public void updateUserPassword(String username, String passwordHash) {
+        tryExecute("UPDATE users SET passwordHash = ? WHERE username = ?", statement -> {
+            statement.setString(1, passwordHash);
+            statement.setString(2, username);
+            statement.execute();
+        });
+    }
+
+    public void deleteUserSessions(String username) {
+        tryExecute("DELETE FROM userSessions WHERE username = ?", statement -> {
+            statement.setString(1, username);
+            statement.execute();
+        });
+    }
+
     public void insertSearchHistory(String username, String query) throws SQLException {
         tryExecute("INSERT INTO searchHistory (username, query) VALUES (?, ?)", statement -> {
             statement.setString(1, username);
@@ -133,4 +148,7 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
             statement.execute();
         });
     }
+
+
+
 }

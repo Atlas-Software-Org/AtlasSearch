@@ -8,6 +8,7 @@ public class V1 {
         app.post("/api/v1/register", new RegisterEndpoint());
         app.get("/api/v1/info", new InfoEndpoint());
         app.post("/api/v1/changeProfilePicture", new ChangeProfilePictureEndpoint());
+        app.post("/api/v1/changePassword", new ChangePasswordEndpoint());
 
         app.get("/api/v1/search", new SearchEndpoint());
 

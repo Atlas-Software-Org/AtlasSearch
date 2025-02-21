@@ -1,3 +1,5 @@
+import { createEffect, createSignal, type Accessor } from 'solid-js';
+
 export interface PasswordResult {
     missingLength: boolean;
     missingDigits: boolean;
@@ -28,4 +30,13 @@ export function validatePassword(password: string): PasswordResult {
 
 export function passwordOk(result: PasswordResult): boolean {
     return !(result.missingLength || result.missingDigits || result.missingUpperCase || result.missingLowerCase || result.missingSpecialChar);
+}
+
+export function createPasswordValidation(password: Accessor<string>): Accessor<PasswordResult> {
+    const [passwordResult, setPasswordResult] = createSignal<PasswordResult>(defaultPasswordResult);
+    createEffect(() => {
+        setPasswordResult(validatePassword(password()));
+    });
+
+    return passwordResult;
 }

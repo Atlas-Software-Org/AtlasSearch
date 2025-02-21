@@ -1,10 +1,9 @@
 import { createContext, type JSX } from 'solid-js';
-import { userSchema, type User } from '../../schemas';
+import { userSchema, type User } from '../../lib/schemas';
 import Query from '../base/query/Query';
-import { fetchAndValidate } from '../../validatedFetch';
-import Loading from '../base/loading/Loading';
+import { saveFetch } from '../../lib/safeFetch';
 import QueryController from '../base/query/QueryController';
-import { timed } from '../../timed';
+import { timed } from '../../lib/timed';
 
 export const UserContext = createContext<{ user: User | undefined }>({ user: undefined });
 
@@ -14,11 +13,7 @@ function Provider(props: { children: JSX.Element; user: User | undefined }) {
 
 function Wrapped(props: { children: JSX.Element; inlineLoading: boolean }) {
     return (
-        <Query
-            f={() => timed(() => fetchAndValidate(userSchema, () => fetch('/api/v1/info')).catch(() => undefined), 'userInfo')}
-            inlineLoading={props.inlineLoading}
-            queryKey="user"
-        >
+        <Query f={() => timed(() => saveFetch('/api/v1/info', {}, userSchema).catch(() => undefined), 'userInfo')} inlineLoading={props.inlineLoading} queryKey="user">
             {([user]) => <Provider user={user} children={props.children} />}
         </Query>
     );

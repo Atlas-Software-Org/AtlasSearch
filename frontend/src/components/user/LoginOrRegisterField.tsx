@@ -1,21 +1,11 @@
-import { createEffect, createSignal, Show, useContext } from 'solid-js';
-import { validatePassword, passwordOk, type PasswordResult, defaultPasswordResult } from '../../password';
+import { createSignal, Show, useContext } from 'solid-js';
+import { passwordOk, createPasswordValidation } from '../../lib/password';
 import { QueryContext } from '../base/query/QueryController';
 import { withQuery } from '../base/query/Query';
 import Loading, { LoadingContext } from '../base/loading/Loading';
-import { timed } from '../../timed';
-
-function PasswordValidationResult(props: PasswordResult) {
-    return (
-        <>
-            <p style={{ color: props.missingLength ? 'red' : 'green' }}>Password must contain at least 8 characters</p>
-            <p style={{ color: props.missingDigits ? 'red' : 'green' }}>Password must contain at least one digit</p>
-            <p style={{ color: props.missingUpperCase ? 'red' : 'green' }}>Password must contain at least one uppercase letter</p>
-            <p style={{ color: props.missingLowerCase ? 'red' : 'green' }}>Password must contain at least one lowercase letter</p>
-            <p style={{ color: props.missingSpecialChar ? 'red' : 'green' }}>Password must contain at least one special character</p>
-        </>
-    );
-}
+import { timed } from '../../lib/timed';
+import PasswordValidationResult from './PasswordValidationResult';
+import { saveFetch } from '../../lib/safeFetch';
 
 function Wrapped() {
     const query = useContext(QueryContext);
@@ -24,19 +14,16 @@ function Wrapped() {
     const [password, setPassword] = createSignal('');
     const [creationMode, setCreationMode] = createSignal(false);
 
-    const [passwordResult, setPasswordResult] = createSignal<PasswordResult>(defaultPasswordResult);
-    createEffect(() => {
-        setPasswordResult(validatePassword(password()));
-    });
+    const passwordResult = createPasswordValidation(password);
 
     const submit = () => {
         const mode = creationMode();
         const url = mode ? '/api/v1/register' : '/api/v1/login';
         withQuery(
-            () => timed(() => fetch(url, { method: 'POST', body: JSON.stringify({ username: username(), password: password() }) }), mode ? 'register' : 'login'),
+            () => timed(() => saveFetch(url, { method: 'POST', body: JSON.stringify({ username: username(), password: password() }) }), mode ? 'register' : 'login'),
             loading,
             true,
-            (t) => {
+            () => {
                 query.refetch('user');
             }
         );
@@ -58,7 +45,7 @@ function Wrapped() {
                         </td>
                     </tr>
                     <tr>
-                        <td class="pr-2 text-nowrap"> Password</td>
+                        <td class="pr-2 text-nowrap">Password</td>
                         <td class="w-full">
                             <input type="password" class="input w-full" onInput={(e) => setPassword(e.target.value)} value={password()} required />
                         </td>

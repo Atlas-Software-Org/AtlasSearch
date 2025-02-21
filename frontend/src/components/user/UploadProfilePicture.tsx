@@ -1,8 +1,8 @@
 import { useContext } from 'solid-js';
 import Loading, { LoadingContext } from '../base/loading/Loading';
-import { fetchAndValidate } from '../../validatedFetch';
-import { uploadResultSchema } from '../../schemas';
-import { timed } from '../../timed';
+import { saveFetch } from '../../lib/safeFetch';
+import { uploadResultSchema } from '../../lib/schemas';
+import { timed } from '../../lib/timed';
 import { QueryContext } from '../base/query/QueryController';
 
 async function readAsDataURL(file: File): Promise<string> {
@@ -67,8 +67,9 @@ function Wrapped() {
                 const file = files.item(i)!;
                 const [prepared] = await timed(
                     () =>
-                        fetchAndValidate(uploadResultSchema, () =>
-                            fetch('/api/v1/changeProfilePicture', {
+                        saveFetch(
+                            '/api/v1/changeProfilePicture',
+                            {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -76,7 +77,8 @@ function Wrapped() {
                                 body: JSON.stringify({
                                     fileName: file.name + '.png',
                                 }),
-                            })
+                            },
+                            uploadResultSchema
                         ),
                     'changeProfilePicture'
                 );

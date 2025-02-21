@@ -2,8 +2,8 @@ import { createSignal, Show, useContext } from 'solid-js';
 import Overlay from '../base/generic/Overlay';
 import LoginOrRegisterField from './LoginOrRegisterField';
 import UserProvider, { UserContext } from './UserProvider';
-import type { User } from '../../schemas';
-import UploadProfilePicture from './UploadProfilePicture';
+import type { User } from '../../lib/schemas';
+import UserSettingsField from './UserSettingsField';
 
 function NotLoggedIn() {
     const [visible, setVisible] = createSignal(false);
@@ -15,7 +15,7 @@ function NotLoggedIn() {
             </div>
             <Overlay visible={visible()}>
                 <div class="field">
-                    <LoginOrRegisterField />
+                    <LoginOrRegisterField />;
                 </div>
             </Overlay>
         </>
@@ -33,8 +33,7 @@ function LoggedIn(props: User) {
             </div>
             <Overlay visible={visible()}>
                 <div class="field">
-                    Test
-                    <UploadProfilePicture />
+                    <UserSettingsField />
                 </div>
             </Overlay>
         </>

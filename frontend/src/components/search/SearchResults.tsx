@@ -1,8 +1,8 @@
 import { For, Show } from 'solid-js';
 import Query from '../base/query/Query';
-import { fetchAndValidate } from '../../validatedFetch';
-import { type SearchResult, searchResultsSchema } from '../../schemas';
-import { timed } from '../../timed';
+import { saveFetch } from '../../lib/safeFetch';
+import { type SearchResult, searchResultsSchema } from '../../lib/schemas';
+import { timed } from '../../lib/timed';
 
 function SearchResultContainer(props: SearchResult) {
     return (
@@ -33,7 +33,7 @@ export default function () {
 
     const page = parseInt(new URLSearchParams(window.location.search).get('page') ?? '0');
     return (
-        <Query f={() => timed(() => fetchAndValidate(searchResultsSchema, () => fetch('/api/v1/search?' + encodeParams(page))), 'search')}>
+        <Query f={() => timed(() => saveFetch('/api/v1/search?' + encodeParams(page), {}, searchResultsSchema), 'search')}>
             {([results, time]) => (
                 <>
                     <For each={results}>{(result) => <SearchResultContainer {...result} />}</For>
