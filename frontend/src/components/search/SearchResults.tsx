@@ -8,7 +8,7 @@ function SearchResultContainer(props: SearchResult) {
     return (
         <div class="m-4 w-1/2 rounded-lg bg-neutral-500/80 p-4 shadow-2xl max-sm:w-[90%]">
             <div>
-                <a href={'/redirect?l=' + props.link} class="text-wrap">
+                <a href={'/api/v1/redirect?l=' + props.link} class="text-wrap">
                     <b>
                         <Show when={props.title} fallback={<>{props.link}</>}>
                             {props.title}
@@ -18,7 +18,7 @@ function SearchResultContainer(props: SearchResult) {
             </div>
 
             <small class="max-sm:hidden">
-                <a href={'/redirect?l=' + props.link}>{props.link}</a>
+                <a href={'/api/v1/redirect?l=' + props.link}>{props.link}</a>
             </small>
             <p>
                 <Show when={props.description} fallback={<>{props.shortText}</>}>

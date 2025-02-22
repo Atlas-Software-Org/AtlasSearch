@@ -1,14 +1,17 @@
 package de.glowman554.search;
 
 import de.glowman554.search.data.SearchResult;
+import de.glowman554.search.data.TimingAverage;
 import de.glowman554.search.data.User;
 import de.glowman554.search.data.UserConfiguration;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BackendDatabaseConnection extends BaseDatabaseConnection {
     private final int resultsPerPage = 10;
+    private final int latenciesToLoad = 30;
 
     public BackendDatabaseConnection(DatabaseConfig config) throws SQLException {
         super(config);
@@ -63,7 +66,7 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
         });
     }
 
-    public void updateUserProfilePicture(String username, String profilePictureUrl) throws SQLException {
+    public void updateUserProfilePicture(String username, String profilePictureUrl) {
         tryExecute("UPDATE users SET profilePictureUrl = ? WHERE username = ?", statement -> {
             statement.setString(1, profilePictureUrl);
             statement.setString(2, username);
@@ -86,7 +89,7 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
         });
     }
 
-    public void insertSearchHistory(String username, String query) throws SQLException {
+    public void insertSearchHistory(String username, String query) {
         tryExecute("INSERT INTO searchHistory (username, query) VALUES (?, ?)", statement -> {
             statement.setString(1, username);
             statement.setString(2, query);
@@ -94,7 +97,7 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
         });
     }
 
-    public void insertVisitHistory(String username, String link) throws SQLException {
+    public void insertVisitHistory(String username, String link) {
         tryExecute("INSERT INTO visitHistory (username, link) VALUES (?, ?)", statement -> {
             statement.setString(1, username);
             statement.setString(2, link);
@@ -149,5 +152,27 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
         });
     }
 
+    public HashMap<String, ArrayList<TimingAverage>> loadTimingAverages() {
+        return tryExecute("""
+                select floor(avg(duration)) as latency, timingKey, year(timestamp) as y, month(timestamp) as m, day(timestamp) as d
+                from timingEvents group by timingKey, year(timestamp), month(timestamp), day(timestamp)
+                order by year(timestamp), month(timestamp), day(timestamp) desc limit ?;
+                """, statement -> {
+            statement.setInt(1, latenciesToLoad);
+            statement.execute();
+        }, resultSet -> {
+            HashMap<String, ArrayList<TimingAverage>> events = new HashMap<>();
+            while (resultSet.next()) {
+                String key = resultSet.getString("timingKey");
 
+                if (!events.containsKey(key)) {
+                    events.put(key, new ArrayList<>());
+                }
+
+                String date = resultSet.getInt("y") + "-" + resultSet.getInt("m") + "-" + resultSet.getInt("d");
+                events.get(key).add(new TimingAverage(date, resultSet.getInt("latency")));
+            }
+            return events;
+        });
+    }
 }

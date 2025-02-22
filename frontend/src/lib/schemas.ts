@@ -32,3 +32,12 @@ export const uploadResultSchema = z.object({
     id: z.string(),
 });
 export type UploadResult = z.infer<typeof uploadResultSchema>;
+
+export const timingAverageSchema = z.object({
+    timing: z.number(),
+    date: z.string(),
+});
+export type TimingAverage = z.infer<typeof timingAverageSchema>;
+
+export const timingsAveragesSchema = z.record(z.array(timingAverageSchema));
+export type TimingsAverages = z.infer<typeof timingsAveragesSchema>;

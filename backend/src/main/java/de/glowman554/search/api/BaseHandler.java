@@ -32,4 +32,12 @@ public abstract class BaseHandler implements Handler {
 
         return Main.getUserManager().getSession(token, required);
     }
+
+    public User administrator(Context context) {
+        User user = authenticated(context, true);
+        if (!user.isAdministrator()) {
+            throw new MutedException("You are not an administrator");
+        }
+        return user;
+    }
 }

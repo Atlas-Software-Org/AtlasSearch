@@ -1,5 +1,6 @@
 package de.glowman554.search.api.v1;
 
+import de.glowman554.search.api.v1.admin.TimingAverageEndpoint;
 import io.javalin.Javalin;
 
 public class V1 {
@@ -9,11 +10,11 @@ public class V1 {
         app.get("/api/v1/info", new InfoEndpoint());
         app.post("/api/v1/changeProfilePicture", new ChangeProfilePictureEndpoint());
         app.post("/api/v1/changePassword", new ChangePasswordEndpoint());
-
         app.get("/api/v1/search", new SearchEndpoint());
-
         app.post("/api/v1/timing", new TimingEndpoint());
-
         app.get("/api/v1/background", new BackgroundEndpoint());
+        app.get("/api/v1/redirect", new RedirectEndpoint());
+
+        app.get("/api/v1/admin/timingAverage", new TimingAverageEndpoint());
     }
 }

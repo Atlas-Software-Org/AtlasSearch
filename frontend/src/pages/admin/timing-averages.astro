@@ -1,0 +1,11 @@
+---
+import TimingHistory from '../../components/base/admin/TimingHistory';
+import Header from '../../components/Header.astro';
+import Layout from '../../components/Layout.astro';
+---
+
+<Layout title="Timing">
+    <Header />
+
+    <TimingHistory client:only />
+</Layout>
