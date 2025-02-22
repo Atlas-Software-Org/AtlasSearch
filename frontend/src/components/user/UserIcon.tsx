@@ -9,13 +9,13 @@ function NotLoggedIn() {
     const [visible, setVisible] = createSignal(false);
     return (
         <>
-            <div class="center hover:cursor-pointer" onClick={() => setVisible(!visible())}>
+            <div class="center rounded-xl p-2 hover:cursor-pointer hover:bg-neutral-500" onClick={() => setVisible(!visible())}>
                 <p>Sign Up</p>
-                <img class="ml-1 h-8 w-8 rounded-full bg-zinc-900" />
+                <img class="ml-1 h-8 w-8 rounded-full bg-neutral-900" />
             </div>
             <Overlay visible={visible()}>
                 <div class="field">
-                    <LoginOrRegisterField />;
+                    <LoginOrRegisterField />
                 </div>
             </Overlay>
         </>
@@ -27,9 +27,9 @@ function LoggedIn(props: User) {
 
     return (
         <>
-            <div class="center hover:cursor-pointer" onClick={() => setVisible(!visible())}>
+            <div class="center rounded-xl p-2 hover:cursor-pointer hover:bg-neutral-500" onClick={() => setVisible(!visible())}>
                 <p>{props.username}</p>
-                <img class="ml-1 h-8 w-8 rounded-full bg-zinc-900" src={props.profilePictureUrl} />
+                <img class="ml-1 h-8 w-8 rounded-full bg-neutral-900" src={props.profilePictureUrl} />
             </div>
             <Overlay visible={visible()}>
                 <div class="field">

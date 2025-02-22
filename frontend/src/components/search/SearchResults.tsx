@@ -6,7 +6,7 @@ import { timed } from '../../lib/timed';
 
 function SearchResultContainer(props: SearchResult) {
     return (
-        <div class="m-4 max-h-48 w-1/2 min-w-xl rounded-lg bg-zinc-500 p-4 opacity-75 shadow-2xl">
+        <div class="m-4 max-h-48 w-1/2 min-w-xl rounded-lg bg-neutral-500/80 p-4 shadow-2xl">
             <div>
                 <a href={'/redirect?l=' + props.link}>
                     <Show when={props.title} fallback={<>{props.link}</>}>

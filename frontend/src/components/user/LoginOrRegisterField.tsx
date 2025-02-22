@@ -74,6 +74,7 @@ function Wrapped() {
 
                 <Show when={!creationMode()}>
                     <button
+                        class="button"
                         onClick={(e) => {
                             e.preventDefault();
                             setCreationMode(true);
