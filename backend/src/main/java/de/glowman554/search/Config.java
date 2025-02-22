@@ -17,6 +17,9 @@ public class Config extends ConfigFile {
     @Saved(remap = Savable.class)
     private FileThingConfig fileThing = new FileThingConfig();
 
+    @Saved
+    private String unsplashToken = "";
+
     public Config() {
         super(new File("config.json"));
     }
@@ -31,6 +34,10 @@ public class Config extends ConfigFile {
 
     public FileThingConfig getFileThing() {
         return fileThing;
+    }
+
+    public String getUnsplashToken() {
+        return unsplashToken;
     }
 
     public static class WebserverConfig extends AutoSavable {

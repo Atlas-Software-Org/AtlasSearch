@@ -11,6 +11,7 @@ import de.glowman554.search.utils.Logger;
 import de.glowman554.search.utils.MutedException;
 import de.glowman554.search.utils.config.FileProcessor;
 import de.glowman554.search.utils.filething.FileThingApi;
+import de.glowman554.search.utils.unsplash.UnsplashApi;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 import net.shadew.json.Json;
@@ -27,6 +28,7 @@ public class Main {
     private static UserManager userManager;
     private static Crawler crawler;
     private static FileThingApi fileThingApi;
+    private static UnsplashApi unsplashApi;
 
     public static void main(String[] args) throws SQLException {
         loadCustomTypes();
@@ -39,6 +41,7 @@ public class Main {
 
         userManager = new UserManager(databaseConnection);
         fileThingApi = new FileThingApi(config.getFileThing().getUploadServer(), config.getFileThing().getAuthToken());
+        unsplashApi = new UnsplashApi(config.getUnsplashToken());
 
         initCrawler(databaseConnection);
         initApiServer(config);
@@ -133,6 +136,10 @@ public class Main {
 
     public static FileThingApi getFileThingApi() {
         return fileThingApi;
+    }
+
+    public static UnsplashApi getUnsplashApi() {
+        return unsplashApi;
     }
 
     public static Crawler getCrawler() {

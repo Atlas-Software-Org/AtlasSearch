@@ -13,5 +13,7 @@ public class V1 {
         app.get("/api/v1/search", new SearchEndpoint());
 
         app.post("/api/v1/timing", new TimingEndpoint());
+
+        app.get("/api/v1/background", new BackgroundEndpoint());
     }
 }

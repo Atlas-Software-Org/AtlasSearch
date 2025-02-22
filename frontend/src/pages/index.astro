@@ -2,13 +2,18 @@
 import Layout from '../components/Layout.astro';
 import SearchBar from '../components/search/SearchBar';
 import Header from '../components/Header.astro';
+import UnsplashSource from '../components/UnsplashSource';
 ---
 
 <Layout title="Home">
-    <Header background={false} />
+    <Header />
 
     <div class="absolute top-[40%] left-40 w-fit">
         <SearchBar client:load />
         <p>web search</p>
+    </div>
+
+    <div class="absolute right-3 bottom-3">
+        <UnsplashSource client:only />
     </div>
 </Layout>

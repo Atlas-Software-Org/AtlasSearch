@@ -37,11 +37,27 @@ export default function () {
             {([results, time]) => (
                 <>
                     <For each={results}>{(result) => <SearchResultContainer {...result} />}</For>
-                    <p>Search took {time}ms</p>
-                    <Show when={page > 0}>
-                        <a href={'/search?' + encodeParams(page - 1)}>Previous</a>
-                    </Show>
-                    <a href={'/search?' + encodeParams(page + 1)}>Next</a>
+
+                    <div class="center">
+                        <div class="flex items-center justify-between rounded-xl bg-neutral-500/80 p-2">
+                            <Show
+                                when={page > 0}
+                                fallback={
+                                    <a href="#" class="button w-40 text-center">
+                                        Previous
+                                    </a>
+                                }
+                            >
+                                <a href={'/search?' + encodeParams(page - 1)} class="button w-40 text-center">
+                                    Previous
+                                </a>
+                            </Show>
+                            <p class="mr-4 ml-4">Search took {time}ms</p>
+                            <a href={'/search?' + encodeParams(page + 1)} class="button w-40 text-center">
+                                Next
+                            </a>
+                        </div>
+                    </div>
                 </>
             )}
         </Query>

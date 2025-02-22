@@ -28,3 +28,11 @@
         @apply m-0.5 rounded-xl border-none bg-neutral-600 p-2;
     }
 }
+
+html,
+body {
+    background: var(--bg-url);
+    @apply bg-cover bg-fixed bg-center bg-no-repeat;
+    @apply m-0 h-full w-full;
+    @apply text-white;
+}
