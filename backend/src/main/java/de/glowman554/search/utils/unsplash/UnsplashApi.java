@@ -26,7 +26,7 @@ public class UnsplashApi {
 
         try (Response res = client.newCall(request).execute()) {
             if (!res.isSuccessful()) {
-                throw new RuntimeException("Failed to prepare upload");
+                throw new RuntimeException("Failed to request picture");
             }
 
             JsonNode parsed = json.parse(Objects.requireNonNull(res.body()).string());
@@ -35,7 +35,7 @@ public class UnsplashApi {
 
             return result;
         } catch (Exception e) {
-            throw new RuntimeException("Failed to prepare upload", e);
+            throw new RuntimeException("Failed to request picture", e);
         }
     }
 }
