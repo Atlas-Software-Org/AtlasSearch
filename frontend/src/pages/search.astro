@@ -1,15 +1,20 @@
 ---
 import Layout from '../components/Layout.astro';
 import SearchResults from '../components/search/SearchResults';
-import InlineSearchBar from '../components/search/InlineSearchBar';
+import SearchBarWithQuery from '../components/search/SearchBarWithQuery';
 import Header from '../components/Header.astro';
 ---
 
 <Layout title="Search">
     <Header>
-        <span class="w-4"></span>
-        <InlineSearchBar client:only />
+        <div class="w-full max-sm:hidden">
+            <SearchBarWithQuery client:only />
+        </div>
     </Header>
+
+    <div class="sm:hidden">
+        <SearchBarWithQuery client:only small={false} />
+    </div>
 
     <SearchResults client:only />
 </Layout>

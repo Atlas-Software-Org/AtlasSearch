@@ -51,7 +51,7 @@ function Wrapped() {
 
 export default function () {
     return (
-        <div class="center absolute right-32">
+        <div class="absolute right-4 sm:right-32">
             <UserProvider inlineLoading={true}>
                 <Wrapped />
             </UserProvider>

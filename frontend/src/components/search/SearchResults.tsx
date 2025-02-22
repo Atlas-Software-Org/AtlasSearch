@@ -6,16 +6,18 @@ import { timed } from '../../lib/timed';
 
 function SearchResultContainer(props: SearchResult) {
     return (
-        <div class="m-4 max-h-48 w-1/2 min-w-xl rounded-lg bg-neutral-500/80 p-4 shadow-2xl">
+        <div class="m-4 w-1/2 rounded-lg bg-neutral-500/80 p-4 shadow-2xl max-sm:w-[90%]">
             <div>
-                <a href={'/redirect?l=' + props.link}>
-                    <Show when={props.title} fallback={<>{props.link}</>}>
-                        {props.title}
-                    </Show>
+                <a href={'/redirect?l=' + props.link} class="text-wrap">
+                    <b>
+                        <Show when={props.title} fallback={<>{props.link}</>}>
+                            {props.title}
+                        </Show>
+                    </b>
                 </a>
             </div>
 
-            <small>
+            <small class="max-sm:hidden">
                 <a href={'/redirect?l=' + props.link}>{props.link}</a>
             </small>
             <p>
@@ -36,10 +38,16 @@ export default function () {
         <Query f={() => timed(() => saveFetch('/api/v1/search?' + encodeParams(page), {}, searchResultsSchema), 'search')}>
             {([results, time]) => (
                 <>
-                    <For each={results}>{(result) => <SearchResultContainer {...result} />}</For>
+                    <For each={results}>
+                        {(result) => (
+                            <div class="max-sm:flex max-sm:items-center max-sm:justify-center">
+                                <SearchResultContainer {...result} />
+                            </div>
+                        )}
+                    </For>
 
                     <div class="center">
-                        <div class="flex items-center justify-between rounded-xl bg-neutral-500/80 p-2">
+                        <div class="flex items-center justify-between sm:rounded-xl sm:bg-neutral-500/80 sm:p-2">
                             <Show
                                 when={page > 0}
                                 fallback={
@@ -52,7 +60,7 @@ export default function () {
                                     Previous
                                 </a>
                             </Show>
-                            <p class="mr-4 ml-4">Search took {time}ms</p>
+                            <p class="mr-4 ml-4 max-sm:hidden">Search took {time}ms</p>
                             <a href={'/search?' + encodeParams(page + 1)} class="button w-40 text-center">
                                 Next
                             </a>

@@ -28,7 +28,10 @@ export default function (props: Props) {
             <div class={props.small ? '' : 'center'}>
                 <input
                     type="text"
-                    class={'bg-neutral-500 select-auto ' + (props.small ? 'w-[25%] rounded-sm p-1 text-xl' : 'w-2xl rounded-xl bg-neutral-500/75! p-2 text-3xl')}
+                    class={
+                        'bg-neutral-500 select-auto ' +
+                        (props.small ? 'w-[25%] rounded-sm p-1 text-xl' : 'w-2xl rounded-xl bg-neutral-500/75! p-2 text-3xl max-sm:w-[75%] max-sm:text-xl')
+                    }
                     placeholder="Search with Atlas Search"
                     value={query()}
                     onChange={(e) => setQuery(e.currentTarget.value)}
