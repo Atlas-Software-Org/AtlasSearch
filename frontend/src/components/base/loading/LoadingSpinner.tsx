@@ -19,7 +19,7 @@ export default function (props: Props) {
                 </Show>
             </Match>
             <Match when={!props.inline}>
-                <Overlay visible={props.visible}>
+                <Overlay visible={props.visible} reset={() => {}}>
                     <div class="flex flex-col items-center">
                         <img src={loadingSvg} class="w-8 animate-spin" />
                         {props.children}

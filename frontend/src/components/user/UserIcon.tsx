@@ -13,7 +13,7 @@ function NotLoggedIn() {
                 <p>Sign Up</p>
                 <img class="ml-1 h-8 w-8 rounded-full bg-neutral-900" />
             </div>
-            <Overlay visible={visible()}>
+            <Overlay visible={visible()} reset={() => setVisible(false)}>
                 <div class="field">
                     <LoginOrRegisterField />
                 </div>
@@ -31,7 +31,7 @@ function LoggedIn(props: User) {
                 <p>{props.username}</p>
                 <img class="ml-1 h-8 w-8 rounded-full bg-neutral-900" src={props.profilePictureUrl} />
             </div>
-            <Overlay visible={visible()}>
+            <Overlay visible={visible()} reset={() => setVisible(false)}>
                 <div class="field">
                     <UserSettingsField />
                 </div>

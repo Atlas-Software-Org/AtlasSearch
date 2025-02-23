@@ -11,7 +11,7 @@ export interface Props {
 
 export default function (props: Props) {
     return (
-        <Overlay visible={props.visible}>
+        <Overlay visible={props.visible} reset={props.resetCallback}>
             <div class="field">
                 {props.children}
                 <div class="section">

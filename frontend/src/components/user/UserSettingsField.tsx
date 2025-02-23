@@ -12,7 +12,7 @@ export default function () {
             </button>
             <UploadProfilePicture />
 
-            <Overlay visible={changePassword()}>
+            <Overlay visible={changePassword()} reset={() => setChangePassword(false)}>
                 <div class="field">
                     <PasswordChangeField />
                 </div>

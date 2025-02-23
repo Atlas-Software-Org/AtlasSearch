@@ -21,7 +21,7 @@
     }
 
     .button {
-        @apply m-2 rounded-xl bg-neutral-600 p-2 hover:bg-neutral-500;
+        @apply m-2 rounded-xl bg-neutral-600 p-2 hover:cursor-pointer hover:bg-neutral-500;
     }
 
     .input {

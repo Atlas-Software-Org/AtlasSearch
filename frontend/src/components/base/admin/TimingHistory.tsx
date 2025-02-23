@@ -1,10 +1,9 @@
 import { For } from 'solid-js';
 import { saveFetch } from '../../../lib/safeFetch';
 import { timed } from '../../../lib/timed';
-import Loading from '../loading/Loading';
 import Query from '../query/Query';
 import { SolidApexCharts } from 'solid-apexcharts';
-import { timingAverageSchema, timingsAveragesSchema, type TimingAverage } from '../../../lib/schemas';
+import { timingsAveragesSchema, type TimingAverage } from '../../../lib/schemas';
 
 function TimingChart(props: { data: TimingAverage[]; key: string }) {
     return (
