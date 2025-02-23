@@ -9,7 +9,7 @@ public class BaseDatabaseConnection {
 
     private BaseDatabaseConnection(String url, String username, String password, String db) throws SQLException {
         connection = DriverManager
-                .getConnection(String.format("jdbc:mysql://%s/%s?user=%s&password=%s", url, db, username, password));
+                .getConnection(String.format("jdbc:mysql://%s/%s?user=%s&password=%s&autoReconnect=true", url, db, username, password));
         Migrations.apply(connection);
     }
 
