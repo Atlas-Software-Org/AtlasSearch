@@ -1,5 +1,6 @@
 package de.glowman554.search;
 
+import de.glowman554.crawler.core.Crawler;
 import de.glowman554.search.data.SearchResult;
 import de.glowman554.search.data.TimingAverage;
 import de.glowman554.search.data.User;
@@ -101,6 +102,15 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
         tryExecute("INSERT INTO visitHistory (username, link) VALUES (?, ?)", statement -> {
             statement.setString(1, username);
             statement.setString(2, link);
+            statement.execute();
+        });
+    }
+
+    public void insertCrawlRequest(String username, String link, Crawler.CrawlerStatus status) {
+        tryExecute("INSERT INTO crawlRequests (username, url, status) VALUES (?, ?, ?)", statement -> {
+            statement.setString(1, username);
+            statement.setString(2, link);
+            statement.setString(3, status.toString());
             statement.execute();
         });
     }

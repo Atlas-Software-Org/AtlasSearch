@@ -1,4 +1,4 @@
-import { createSignal, Show, useContext } from 'solid-js';
+import { createSignal, Show, useContext, type JSX } from 'solid-js';
 import { passwordOk, createPasswordValidation } from '../../lib/password';
 import { QueryContext } from '../base/query/QueryController';
 import { withQuery } from '../base/query/Query';
@@ -7,7 +7,11 @@ import { timed } from '../../lib/timed';
 import PasswordValidationResult from './PasswordValidationResult';
 import { saveFetch } from '../../lib/safeFetch';
 
-function Wrapped() {
+export interface Props {
+    children?: JSX.Element;
+}
+
+function Wrapped(props: Props) {
     const query = useContext(QueryContext);
     const loading = useContext(LoadingContext);
     const [username, setUsername] = createSignal('');
@@ -36,6 +40,7 @@ function Wrapped() {
                 submit();
             }}
         >
+            {props.children}
             <table>
                 <tbody>
                     <tr>
@@ -88,10 +93,10 @@ function Wrapped() {
     );
 }
 
-export default function () {
+export default function (props: Props) {
     return (
         <Loading initial={false} inline={false}>
-            <Wrapped />
+            <Wrapped {...props} />
         </Loading>
     );
 }

@@ -1,9 +1,15 @@
-import { createSignal, Show, useContext } from 'solid-js';
+import { createEffect, createSignal, Show, useContext } from 'solid-js';
 import Overlay from '../base/generic/Overlay';
 import LoginOrRegisterField from './LoginOrRegisterField';
 import UserProvider, { UserContext } from './UserProvider';
 import type { User } from '../../lib/schemas';
 import UserSettingsField from './UserSettingsField';
+
+export interface Props {
+    loginRequired?: boolean;
+    premiumRequired?: boolean;
+    administratorRequired?: boolean;
+}
 
 function NotLoggedIn() {
     const [visible, setVisible] = createSignal(false);
@@ -40,20 +46,56 @@ function LoggedIn(props: User) {
     );
 }
 
-function Wrapped() {
+function Wrapped(props: Props) {
     const provider = useContext(UserContext);
+
+    const [loginRequired, setLoginRequired] = createSignal(false);
+    const [premiumRequired, setPremiumRequired] = createSignal(false);
+    const [administratorRequired, setAdministratorRequired] = createSignal(false);
+
+    createEffect(() => {
+        if (provider.user) {
+            if (props.premiumRequired && !provider.user.isPremiumUser) {
+                setPremiumRequired(true);
+            } else if (props.administratorRequired && !provider.user.isAdministrator) {
+                setAdministratorRequired(true);
+            }
+        } else if (props.loginRequired) {
+            setLoginRequired(true);
+        }
+    });
+
     return (
-        <Show when={provider.user} fallback={<NotLoggedIn />}>
-            <LoggedIn {...provider.user!} />
-        </Show>
+        <>
+            <Show when={provider.user} fallback={<NotLoggedIn />}>
+                <LoggedIn {...provider.user!} />
+            </Show>
+            <Overlay visible={loginRequired()} reset={() => {}}>
+                <div class="field">
+                    <LoginOrRegisterField>
+                        <p>You must be logged in to view this page</p>
+                    </LoginOrRegisterField>
+                </div>
+            </Overlay>
+            <Overlay visible={premiumRequired()} reset={() => setPremiumRequired(false)}>
+                <div class="field">
+                    <p>You must be a premium user to view this page</p>
+                </div>
+            </Overlay>
+            <Overlay visible={administratorRequired()} reset={() => setAdministratorRequired(false)}>
+                <div class="field">
+                    <p>You must be an administrator to view this page</p>
+                </div>
+            </Overlay>
+        </>
     );
 }
 
-export default function () {
+export default function (props: Props) {
     return (
         <div class="absolute right-4 sm:right-32">
             <UserProvider inlineLoading={true}>
-                <Wrapped />
+                <Wrapped {...props} />
             </UserProvider>
         </div>
     );

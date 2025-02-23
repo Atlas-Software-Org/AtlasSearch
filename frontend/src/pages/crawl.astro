@@ -1,0 +1,11 @@
+---
+import Layout from '../components/Layout.astro';
+import Header from '../components/Header.astro';
+import CrawlField from '../components/CrawlField';
+---
+
+<Layout title="Home" description="Send a crawl request to the Atlas Search Crawler.">
+    <Header user={{ loginRequired: true }} />
+
+    <CrawlField client:only />
+</Layout>

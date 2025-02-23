@@ -10,10 +10,12 @@ public class V1 {
         app.get("/api/v1/info", new InfoEndpoint());
         app.post("/api/v1/changeProfilePicture", new ChangeProfilePictureEndpoint());
         app.post("/api/v1/changePassword", new ChangePasswordEndpoint());
+
         app.get("/api/v1/search", new SearchEndpoint());
         app.post("/api/v1/timing", new TimingEndpoint());
-        app.get("/api/v1/background", new BackgroundEndpoint());
         app.get("/api/v1/redirect", new RedirectEndpoint());
+        app.get("/api/v1/background", new BackgroundEndpoint());
+        app.get("/api/v1/crawl", new CrawlEndpoint());
 
         app.get("/api/v1/admin/timingAverage", new TimingAverageEndpoint());
     }

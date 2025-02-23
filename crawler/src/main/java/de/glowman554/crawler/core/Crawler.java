@@ -2,6 +2,7 @@ package de.glowman554.crawler.core;
 
 import de.glowman554.crawler.core.analysis.KeywordAnalysis;
 import de.glowman554.crawler.core.queue.AbstractQueue;
+import de.glowman554.crawler.core.queue.validation.Validator;
 import de.glowman554.crawler.core.robots.Result;
 import de.glowman554.crawler.core.robots.RobotsParser;
 import de.glowman554.crawler.core.robots.Scope;
@@ -68,11 +69,20 @@ public class Crawler {
             CrawlerStatus status = crawl(link);
             Logger.log("[CRAWLER] " + status + " " + link);
             return status;
-        } catch (IOException e) {
+        } catch (Exception e) {
             Logger.exception(e);
             inserter.delete(link);
         }
         return CrawlerStatus.FAILED;
+    }
+
+    public CrawlerStatus validatedPerform(String link) {
+        String s = Validator.validate(link);
+        if (s == null) {
+            return CrawlerStatus.REJECTED;
+        }
+
+        return perform(s);
     }
 
     public void stop() {

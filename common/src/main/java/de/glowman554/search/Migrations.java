@@ -94,5 +94,9 @@ public class Migrations {
                     )
                     """);
         }, connection);
+
+        new Migration("crawler_requests_add_status", (_, statement) -> {
+            statement.execute("alter table `crawlRequests` add column `status` varchar(100) NOT NULL DEFAULT 'unknown'");
+        }, connection);
     }
 }

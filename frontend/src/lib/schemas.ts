@@ -41,3 +41,8 @@ export type TimingAverage = z.infer<typeof timingAverageSchema>;
 
 export const timingsAveragesSchema = z.record(z.array(timingAverageSchema));
 export type TimingsAverages = z.infer<typeof timingsAveragesSchema>;
+
+export const crawlResultSchema = z.object({
+    status: z.enum(['INSERTED', 'UPDATED', 'REJECTED', 'FAILED']),
+});
+export type CrawlResult = z.infer<typeof crawlResultSchema>;
