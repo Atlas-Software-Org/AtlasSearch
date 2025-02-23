@@ -65,6 +65,8 @@ function Wrapped() {
         try {
             for (let i = 0; i < files.length; i++) {
                 const file = files.item(i)!;
+                const fileName = file.name.split('.').slice(0, -1).join('.') + '.png';
+
                 const [prepared] = await timed(
                     () =>
                         saveFetch(
@@ -75,7 +77,7 @@ function Wrapped() {
                                     'Content-Type': 'application/json',
                                 },
                                 body: JSON.stringify({
-                                    fileName: file.name + '.png',
+                                    fileName,
                                 }),
                             },
                             uploadResultSchema

@@ -56,6 +56,9 @@ public class FileThingApi {
     }
 
     public String idFromUrl(String url) {
+        if (!url.startsWith(uploadServer)) {
+            return null;
+        }
         return url.substring(url.lastIndexOf('/') + 1);
     }
 }
