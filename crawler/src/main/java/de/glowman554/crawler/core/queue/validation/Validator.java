@@ -49,8 +49,8 @@ public class Validator {
             finalLink += ":" + url.getPort();
         }
         finalLink += url.getPath();
-        if (!finalLink.endsWith("/") && !finalLink.contains(".")) {
-            finalLink += "/";
+        if (finalLink.endsWith("/")) {
+            finalLink = finalLink.substring(0, finalLink.length() - 1);
         }
 
         return finalLink;
