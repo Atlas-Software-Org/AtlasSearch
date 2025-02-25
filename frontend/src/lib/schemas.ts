@@ -49,7 +49,7 @@ export type CrawlResult = z.infer<typeof crawlResultSchema>;
 
 export const crawlHistoryEntrySchema = z.object({
     username: z.string(),
-    url: z.string().url(),
+    url: z.string(),
     id: z.number(),
     timestamp: z.number(),
     status: z.enum(['INSERTED', 'UPDATED', 'REJECTED', 'FAILED', 'unknown']),
