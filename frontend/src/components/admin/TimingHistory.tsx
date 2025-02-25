@@ -1,11 +1,11 @@
 import { For } from 'solid-js';
-import { saveFetch } from '../../../lib/safeFetch';
-import { timed } from '../../../lib/timed';
-import Query from '../query/Query';
+import { saveFetch } from '../../lib/safeFetch';
+import { timed } from '../../lib/timed';
+import Query from '../base/query/Query';
 import { SolidApexCharts } from 'solid-apexcharts';
-import { timingsAveragesSchema, type TimingAverage } from '../../../lib/schemas';
+import { timingsAveragesSchema, type TimingAverageEntry } from '../../lib/schemas';
 
-function TimingChart(props: { data: TimingAverage[]; key: string }) {
+function TimingChart(props: { data: TimingAverageEntry[]; key: string }) {
     return (
         <div class="center p-2">
             <div class="field h-96 w-3/4 max-sm:w-full">

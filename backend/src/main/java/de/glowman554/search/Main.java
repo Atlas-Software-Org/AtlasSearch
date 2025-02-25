@@ -9,6 +9,7 @@ import de.glowman554.search.api.v1.V1;
 import de.glowman554.search.user.UserManager;
 import de.glowman554.search.utils.Logger;
 import de.glowman554.search.utils.MutedException;
+import de.glowman554.search.utils.config.DateProcessor;
 import de.glowman554.search.utils.config.FileProcessor;
 import de.glowman554.search.utils.filething.FileThingApi;
 import de.glowman554.search.utils.unsplash.UnsplashApi;
@@ -22,6 +23,7 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.SQLException;
+import java.util.Date;
 
 public class Main {
     private static BackendDatabaseConnection databaseConnection;
@@ -49,6 +51,7 @@ public class Main {
 
     private static void loadCustomTypes() {
         AutoSavable.register(File.class, new FileProcessor());
+        AutoSavable.register(Date.class, new DateProcessor());
     }
 
     private static void initCrawler(BaseDatabaseConnection base) {

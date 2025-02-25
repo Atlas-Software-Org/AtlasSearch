@@ -1,11 +1,9 @@
 package de.glowman554.search;
 
 import de.glowman554.crawler.core.Crawler;
-import de.glowman554.search.data.SearchResult;
-import de.glowman554.search.data.TimingAverage;
-import de.glowman554.search.data.User;
-import de.glowman554.search.data.UserConfiguration;
+import de.glowman554.search.data.*;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,6 +113,16 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
         });
     }
 
+    public ArrayList<CrawlHistoryEntry> loadCrawlHistory() {
+        return tryExecute("SELECT username, id, url, timestamp, status FROM crawlRequests ORDER BY timestamp DESC", PreparedStatement::execute, resultSet -> {
+            ArrayList<CrawlHistoryEntry> history = new ArrayList<>();
+            while (resultSet.next()) {
+                history.add(new CrawlHistoryEntry(resultSet.getString("username"), resultSet.getInt("id"), resultSet.getString("url"), resultSet.getTimestamp("timestamp"), resultSet.getString("status")));
+            }
+            return history;
+        });
+    }
+
     public UserConfiguration loadUserConfiguration(String username) {
         return tryExecute("SELECT shouldKeepHistory FROM users WHERE username = ?", statement -> {
             statement.setString(1, username);
@@ -162,7 +170,7 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
         });
     }
 
-    public HashMap<String, ArrayList<TimingAverage>> loadTimingAverages() {
+    public HashMap<String, ArrayList<TimingAverageEntry>> loadTimingAverages() {
         return tryExecute("""
                 select floor(avg(duration)) as latency, timingKey, year(timestamp) as y, month(timestamp) as m, day(timestamp) as d
                 from timingEvents group by timingKey, year(timestamp), month(timestamp), day(timestamp)
@@ -171,7 +179,7 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
             statement.setInt(1, latenciesToLoad);
             statement.execute();
         }, resultSet -> {
-            HashMap<String, ArrayList<TimingAverage>> events = new HashMap<>();
+            HashMap<String, ArrayList<TimingAverageEntry>> events = new HashMap<>();
             while (resultSet.next()) {
                 String key = resultSet.getString("timingKey");
 
@@ -180,7 +188,7 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
                 }
 
                 String date = resultSet.getInt("y") + "-" + resultSet.getInt("m") + "-" + resultSet.getInt("d");
-                events.get(key).add(new TimingAverage(date, resultSet.getInt("latency")));
+                events.get(key).add(new TimingAverageEntry(date, resultSet.getInt("latency")));
             }
             return events;
         });

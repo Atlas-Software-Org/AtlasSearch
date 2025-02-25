@@ -1,0 +1,11 @@
+---
+import CrawlHistoryTable from '../../components/admin/CrawlHistoryTable';
+import Header from '../../components/Header.astro';
+import Layout from '../../components/Layout.astro';
+---
+
+<Layout title="Crawl history" description="View the crawl history of the Atlas Search crawler.">
+    <Header />
+
+    <CrawlHistoryTable client:only />
+</Layout>

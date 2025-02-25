@@ -33,16 +33,28 @@ export const uploadResultSchema = z.object({
 });
 export type UploadResult = z.infer<typeof uploadResultSchema>;
 
-export const timingAverageSchema = z.object({
+export const timingAverageEntrySchema = z.object({
     timing: z.number(),
     date: z.string(),
 });
-export type TimingAverage = z.infer<typeof timingAverageSchema>;
+export type TimingAverageEntry = z.infer<typeof timingAverageEntrySchema>;
 
-export const timingsAveragesSchema = z.record(z.array(timingAverageSchema));
+export const timingsAveragesSchema = z.record(z.array(timingAverageEntrySchema));
 export type TimingsAverages = z.infer<typeof timingsAveragesSchema>;
 
 export const crawlResultSchema = z.object({
     status: z.enum(['INSERTED', 'UPDATED', 'REJECTED', 'FAILED']),
 });
 export type CrawlResult = z.infer<typeof crawlResultSchema>;
+
+export const crawlHistoryEntrySchema = z.object({
+    username: z.string(),
+    url: z.string().url(),
+    id: z.number(),
+    timestamp: z.number(),
+    status: z.enum(['INSERTED', 'UPDATED', 'REJECTED', 'FAILED', 'unknown']),
+});
+export type CrawlHistoryEntry = z.infer<typeof crawlHistoryEntrySchema>;
+
+export const crawlHistorySchema = z.array(crawlHistoryEntrySchema);
+// export type CrawlHistory = z.infer<typeof crawlHistorySchema>;

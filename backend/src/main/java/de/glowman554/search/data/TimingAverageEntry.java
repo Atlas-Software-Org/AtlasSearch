@@ -3,13 +3,13 @@ package de.glowman554.search.data;
 import de.glowman554.config.auto.AutoSavable;
 import de.glowman554.config.auto.Saved;
 
-public class TimingAverage extends AutoSavable {
+public class TimingAverageEntry extends AutoSavable {
     @Saved
     private String date;
     @Saved
     private int timing;
 
-    public TimingAverage(String date, int timing) {
+    public TimingAverageEntry(String date, int timing) {
         this.date = date;
         this.timing = timing;
     }
