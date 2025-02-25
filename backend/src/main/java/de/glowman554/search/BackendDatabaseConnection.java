@@ -114,7 +114,7 @@ public class BackendDatabaseConnection extends BaseDatabaseConnection {
     }
 
     public ArrayList<CrawlHistoryEntry> loadCrawlHistory() {
-        return tryExecute("SELECT username, id, url, timestamp, status FROM crawlRequests ORDER BY timestamp DESC", PreparedStatement::execute, resultSet -> {
+        return tryExecute("SELECT username, id, url, timestamp, status FROM crawlRequests ORDER BY timestamp DESC limit 100", PreparedStatement::execute, resultSet -> {
             ArrayList<CrawlHistoryEntry> history = new ArrayList<>();
             while (resultSet.next()) {
                 history.add(new CrawlHistoryEntry(resultSet.getString("username"), resultSet.getInt("id"), resultSet.getString("url"), resultSet.getTimestamp("timestamp"), resultSet.getString("status")));
