@@ -19,9 +19,9 @@ public class RedirectEndpoint extends BaseHandler {
 
         User user = authenticated(ctx, false);
         if (user != null) {
-            UserConfiguration userConfiguration = Main.getDatabaseConnection().loadUserConfiguration(user.getUsername());
+            UserConfiguration userConfiguration = Main.getDatabase().users.loadUserConfiguration(user.getUsername());
             if (userConfiguration.shouldKeepHistory()) {
-                Main.getDatabaseConnection().insertVisitHistory(user.getUsername(), link);
+                Main.getDatabase().history.insertVisitHistory(user.getUsername(), link);
             }
         }
 

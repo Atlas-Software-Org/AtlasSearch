@@ -6,6 +6,7 @@ import de.glowman554.crawler.core.CrawlerDatabaseConnection;
 import de.glowman554.crawler.core.IPageInserter;
 import de.glowman554.crawler.core.queue.AbstractQueue;
 import de.glowman554.search.api.v1.V1;
+import de.glowman554.search.database.BackendDatabase;
 import de.glowman554.search.user.UserManager;
 import de.glowman554.search.utils.Logger;
 import de.glowman554.search.utils.MutedException;
@@ -26,7 +27,7 @@ import java.sql.SQLException;
 import java.util.Date;
 
 public class Main {
-    private static BackendDatabaseConnection databaseConnection;
+    private static BackendDatabase database;
     private static UserManager userManager;
     private static Crawler crawler;
     private static FileThingApi fileThingApi;
@@ -39,13 +40,13 @@ public class Main {
         Logger.log("Config loaded");
 
         DatabaseConfig databaseConfig = config.getDatabase();
-        databaseConnection = new BackendDatabaseConnection(databaseConfig);
+        database = new BackendDatabase(databaseConfig);
 
-        userManager = new UserManager(databaseConnection);
+        userManager = new UserManager(database);
         fileThingApi = new FileThingApi(config.getFileThing().getUploadServer(), config.getFileThing().getAuthToken());
         unsplashApi = new UnsplashApi(config.getUnsplashToken());
 
-        initCrawler(databaseConnection);
+        initCrawler(database);
         initApiServer(config);
     }
 
@@ -133,8 +134,8 @@ public class Main {
         return userManager;
     }
 
-    public static BackendDatabaseConnection getDatabaseConnection() {
-        return databaseConnection;
+    public static BackendDatabase getDatabase() {
+        return database;
     }
 
     public static FileThingApi getFileThingApi() {

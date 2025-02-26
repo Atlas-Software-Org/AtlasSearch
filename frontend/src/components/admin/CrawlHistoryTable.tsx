@@ -1,8 +1,10 @@
-import { For } from 'solid-js';
+import { createSignal, For } from 'solid-js';
 import { saveFetch } from '../../lib/safeFetch';
 import { timed } from '../../lib/timed';
 import Query from '../base/query/Query';
 import { crawlHistorySchema, type CrawlHistoryEntry } from '../../lib/schemas';
+import Overlay from '../base/generic/Overlay';
+import User from './User';
 
 function statusToColor(status: CrawlHistoryEntry['status']) {
     switch (status) {
@@ -20,20 +22,29 @@ function statusToColor(status: CrawlHistoryEntry['status']) {
 }
 
 function CrawlHistoryTableEntry(props: CrawlHistoryEntry) {
+    const [visible, setVisible] = createSignal(false);
     return (
-        <tr>
-            {/* TODO: allow clicking on user to open their profile */}
-            <td class="pr-2">{props.username}</td>
-            <td class="pr-2">
-                <a href="{props.url}" class="text-blue-400">
-                    {props.url}
-                </a>
-            </td>
-            <td style={{ color: statusToColor(props.status) }} class="pr-2">
-                {props.status}
-            </td>
-            <td>{new Date(props.timestamp).toLocaleString()}</td>
-        </tr>
+        <>
+            <tr>
+                <td class="pr-2 underline hover:cursor-pointer" onClick={() => setVisible(true)}>
+                    {props.username}
+                </td>
+                <td class="pr-2">
+                    <a href="{props.url}" class="text-blue-400">
+                        {props.url}
+                    </a>
+                </td>
+                <td style={{ color: statusToColor(props.status) }} class="pr-2">
+                    {props.status}
+                </td>
+                <td>{new Date(props.timestamp).toLocaleString()}</td>
+            </tr>
+            <Overlay visible={visible()} reset={() => setVisible(false)}>
+                <div class="field">
+                    <User username={props.username} />
+                </div>
+            </Overlay>
+        </>
     );
 }
 

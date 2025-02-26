@@ -1,0 +1,11 @@
+---
+import UserTable from '../../components/admin/UserTable';
+import Header from '../../components/Header.astro';
+import Layout from '../../components/Layout.astro';
+---
+
+<Layout title="Users" description="View the users of Atlas Search.">
+    <Header />
+
+    <UserTable client:only />
+</Layout>

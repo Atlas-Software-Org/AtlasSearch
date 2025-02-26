@@ -21,7 +21,7 @@ public class CrawlEndpoint extends BaseHandler {
         }
 
         Crawler.CrawlerStatus status = Main.getCrawler().validatedPerform(link);
-        Main.getDatabaseConnection().insertCrawlRequest(user.getUsername(), link, status);
+        Main.getDatabase().history.insertCrawlRequest(user.getUsername(), link, status);
 
 
         json(ctx, JsonNode.object().set("status", status.name()));

@@ -18,9 +18,9 @@ public class TimingEndpoint extends JsonHandler<Timing> {
     public void handle(@NotNull Context context, Timing instance) throws Exception {
         User user = authenticated(context, false);
         if (user == null) {
-            Main.getDatabaseConnection().insertTimingEvent(null, instance.getKey(), instance.getTime());
+            Main.getDatabase().insertTimingEvent(null, instance.getKey(), instance.getTime());
         } else {
-            Main.getDatabaseConnection().insertTimingEvent(user.getUsername(), instance.getKey(), instance.getTime());
+            Main.getDatabase().insertTimingEvent(user.getUsername(), instance.getKey(), instance.getTime());
         }
         json(context, JsonNode.object().set("status", "success"));
     }

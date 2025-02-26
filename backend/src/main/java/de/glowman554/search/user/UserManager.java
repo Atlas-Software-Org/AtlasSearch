@@ -1,17 +1,17 @@
 package de.glowman554.search.user;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import de.glowman554.search.BackendDatabaseConnection;
+import de.glowman554.search.database.BackendDatabase;
 import de.glowman554.search.data.User;
 
 import java.security.SecureRandom;
 import java.sql.SQLException;
 
 public class UserManager {
-    private final BackendDatabaseConnection databaseConnection;
+    private final BackendDatabase database;
 
-    public UserManager(BackendDatabaseConnection databaseConnection) {
-        this.databaseConnection = databaseConnection;
+    public UserManager(BackendDatabase database) {
+        this.database = database;
     }
 
     private String hashPassword(String password) {
@@ -35,7 +35,7 @@ public class UserManager {
 
     private String createSession(String username) throws SQLException {
         String token = createToken();
-        databaseConnection.createNewSession(username, token);
+        database.users.createNewSession(username, token);
         return token;
     }
 
@@ -46,12 +46,12 @@ public class UserManager {
         }
         String passwordHash = hashPassword(password);
         String defaultProfilePicture = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Anthro_vixen_colored.jpg/220px-Anthro_vixen_colored.jpg";
-        databaseConnection.createNewUser(username, passwordHash, defaultProfilePicture);
+        database.users.createNewUser(username, passwordHash, defaultProfilePicture);
         return createSession(username);
     }
 
     public String loginAndCreateSession(String username, String password) throws SQLException {
-        User user = databaseConnection.loadUser(username);
+        User user = database.users.loadUser(username);
         if (user == null) {
             throw new IllegalArgumentException("User not found");
         }
@@ -70,12 +70,12 @@ public class UserManager {
             throw new IllegalArgumentException(rejectionReason.getMessage());
         }
         String passwordHash = hashPassword(newPassword);
-        databaseConnection.updateUserPassword(user.getUsername(), passwordHash);
-        databaseConnection.deleteUserSessions(user.getUsername());
+        database.users.updateUserPassword(user.getUsername(), passwordHash);
+        database.users.deleteUserSessions(user.getUsername());
     }
 
     public User getSession(String token, boolean required) {
-        User user = databaseConnection.loadUserByToken(token);
+        User user = database.users.loadUserByToken(token);
         if (user == null && required) {
             throw new RuntimeException("Not authenticated");
         }

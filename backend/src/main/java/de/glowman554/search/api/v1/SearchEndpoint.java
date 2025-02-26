@@ -23,9 +23,9 @@ public class SearchEndpoint extends BaseHandler {
 
         User user = authenticated(ctx, false);
         if (user != null) {
-            UserConfiguration userConfiguration = Main.getDatabaseConnection().loadUserConfiguration(user.getUsername());
+            UserConfiguration userConfiguration = Main.getDatabase().users.loadUserConfiguration(user.getUsername());
             if (userConfiguration.shouldKeepHistory()) {
-                Main.getDatabaseConnection().insertSearchHistory(user.getUsername(), query);
+                Main.getDatabase().history.insertSearchHistory(user.getUsername(), query);
             }
         }
 
@@ -36,7 +36,7 @@ public class SearchEndpoint extends BaseHandler {
 
         int page = Integer.parseInt(pageStr);
 
-        ArrayList<SearchResult> results = Main.getDatabaseConnection().performSearch(query, page);
+        ArrayList<SearchResult> results = Main.getDatabase().performSearch(query, page);
         JsonNode result = JsonNode.array();
         for (SearchResult searchResult : results) {
             result.add(searchResult.toJSON());

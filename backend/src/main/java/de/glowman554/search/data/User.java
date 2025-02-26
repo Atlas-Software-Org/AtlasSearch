@@ -4,11 +4,8 @@ import de.glowman554.config.Savable;
 import de.glowman554.config.auto.AutoSavable;
 import de.glowman554.config.auto.Saved;
 
-public class User extends AutoSavable {
-    @Saved
-    private String username;
-    @Saved
-    private String profilePictureUrl;
+public class User extends PartialUser {
+
     @Saved
     private boolean isAdministrator;
     @Saved
@@ -19,25 +16,18 @@ public class User extends AutoSavable {
     private String passwordHash;
 
     public User() {
+        super();
     }
 
     public User(String username, String profilePictureUrl, String passwordHash, boolean isAdministrator,
                 boolean isPremiumUser, UserConfiguration configuration) {
-        this.username = username;
-        this.profilePictureUrl = profilePictureUrl;
+        super(username, profilePictureUrl);
         this.passwordHash = passwordHash;
         this.isAdministrator = isAdministrator;
         this.isPremiumUser = isPremiumUser;
         this.configuration = configuration;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getProfilePictureUrl() {
-        return profilePictureUrl;
-    }
 
     public String getPasswordHash() {
         return passwordHash;

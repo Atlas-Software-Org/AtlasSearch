@@ -5,14 +5,23 @@ export const userConfigSchema = z.object({
 });
 export type UserConfig = z.infer<typeof userConfigSchema>;
 
-export const userSchema = z.object({
+export const partialUserSchema = z.object({
     username: z.string(),
     profilePictureUrl: z.string(),
-    isAdministrator: z.boolean(),
-    isPremiumUser: z.boolean(),
-    configuration: userConfigSchema,
 });
+export type PartialUser = z.infer<typeof partialUserSchema>;
+
+export const userSchema = partialUserSchema.merge(
+    z.object({
+        isAdministrator: z.boolean(),
+        isPremiumUser: z.boolean(),
+        configuration: userConfigSchema,
+    })
+);
 export type User = z.infer<typeof userSchema>;
+
+export const userListSchema = z.array(partialUserSchema);
+export type UserList = z.infer<typeof userListSchema>;
 
 export const searchResultSchema = z.object({
     link: z.string().url(),
@@ -57,4 +66,4 @@ export const crawlHistoryEntrySchema = z.object({
 export type CrawlHistoryEntry = z.infer<typeof crawlHistoryEntrySchema>;
 
 export const crawlHistorySchema = z.array(crawlHistoryEntrySchema);
-// export type CrawlHistory = z.infer<typeof crawlHistorySchema>;
+export type CrawlHistory = z.infer<typeof crawlHistorySchema>;

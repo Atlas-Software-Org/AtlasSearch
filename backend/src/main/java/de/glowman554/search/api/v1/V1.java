@@ -1,7 +1,6 @@
 package de.glowman554.search.api.v1;
 
-import de.glowman554.search.api.v1.admin.CrawlHistoryEndpoint;
-import de.glowman554.search.api.v1.admin.TimingAverageEndpoint;
+import de.glowman554.search.api.v1.admin.V1Admin;
 import io.javalin.Javalin;
 
 public class V1 {
@@ -18,7 +17,6 @@ public class V1 {
         app.get("/api/v1/background", new BackgroundEndpoint());
         app.get("/api/v1/crawl", new CrawlEndpoint());
 
-        app.get("/api/v1/admin/timingAverage", new TimingAverageEndpoint());
-        app.get("/api/v1/admin/crawlHistory", new CrawlHistoryEndpoint());
+        V1Admin.register(app);
     }
 }

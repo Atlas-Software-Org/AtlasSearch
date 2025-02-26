@@ -19,7 +19,7 @@ public class ChangeProfilePictureEndpoint extends JsonHandler<ChangeProfilePictu
         User user = authenticated(context, true);
 
         UploadResult upload = Main.getFileThingApi().prepareUpload(instance.getFileName());
-        Main.getDatabaseConnection().updateUserProfilePicture(user.getUsername(), upload.getUrl());
+        Main.getDatabase().users.updateUserProfilePicture(user.getUsername(), upload.getUrl());
 
         String oldId = Main.getFileThingApi().idFromUrl(user.getProfilePictureUrl());
         if (oldId != null) {

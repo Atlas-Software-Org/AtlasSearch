@@ -15,7 +15,7 @@ public class TimingAverageEndpoint extends BaseHandler {
     public void handle(@NotNull Context ctx) throws Exception {
         administrator(ctx);
 
-        HashMap<String, ArrayList<TimingAverageEntry>> response = Main.getDatabaseConnection().loadTimingAverages();
+        HashMap<String, ArrayList<TimingAverageEntry>> response = Main.getDatabase().loadTimingAverages();
 
         JsonNode result = JsonNode.object();
         for (String key : response.keySet()) {

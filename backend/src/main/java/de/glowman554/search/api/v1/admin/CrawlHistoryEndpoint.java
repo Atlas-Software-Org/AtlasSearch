@@ -14,7 +14,7 @@ public class CrawlHistoryEndpoint extends BaseHandler {
     public void handle(@NotNull Context ctx) throws Exception {
         administrator(ctx);
 
-        ArrayList<CrawlHistoryEntry> response = Main.getDatabaseConnection().loadCrawlHistory();
+        ArrayList<CrawlHistoryEntry> response = Main.getDatabase().history.loadCrawlHistory();
         JsonNode result = JsonNode.array();
         for (CrawlHistoryEntry entry : response) {
             result.add(entry.toJSON());
