@@ -43,6 +43,11 @@ function Wrapped() {
         <>
             <div class="center h-full pt-8">
                 <div class="field w-1/2 max-sm:w-4/5">
+                    <div class="pb-2 text-red-400">
+                        <p>You need to be logged in to crawl web pages!</p>
+                        <p>Web pages need to start with http:// or https://</p>
+                    </div>
+
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();

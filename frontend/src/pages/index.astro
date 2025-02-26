@@ -12,6 +12,12 @@ import UnsplashSource from '../components/UnsplashSource';
         <SearchBar client:load />
     </div>
 
+    <div class="absolute bottom-3 left-3 max-sm:hidden">
+        <div class="rounded-xl bg-neutral-700/75 p-2">
+            <a href="/crawl" class="text-blue-400 underline">Add missing webpages</a>
+        </div>
+    </div>
+
     <div class="absolute right-3 bottom-3">
         <UnsplashSource client:only />
     </div>

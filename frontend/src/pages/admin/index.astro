@@ -1,0 +1,16 @@
+---
+import Header from '../../components/Header.astro';
+import Layout from '../../components/Layout.astro';
+---
+
+<Layout title="Admin" description="Admin page for Atlas Search.">
+    <Header />
+
+    <div class="center h-full pt-8">
+        <div class="field center w-1/2 flex-col max-sm:w-4/5">
+            <a class="text-blue-400 hover:bg-zinc-500 sm:text-2xl" href="/admin/crawl-history">Crawl History</a>
+            <a class="text-blue-400 hover:bg-zinc-500 sm:text-2xl" href="/admin/timing-averages">Timing Averages</a>
+            <a class="text-blue-400 hover:bg-zinc-500 sm:text-2xl" href="/admin/users">Users</a>
+        </div>
+    </div>
+</Layout>

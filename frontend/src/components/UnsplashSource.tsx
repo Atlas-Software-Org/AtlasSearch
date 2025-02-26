@@ -6,7 +6,7 @@ export default function () {
         <div class="rounded-xl bg-neutral-700/75 p-2">
             <p>
                 Photo by {name} on{' '}
-                <a class="underline" href={`https://unsplash.com/@${username}?utm_source=thorax&utm_medium=referral`}>
+                <a class="text-blue-400 underline" href={`https://unsplash.com/@${username}?utm_source=thorax&utm_medium=referral`}>
                     Unsplash
                 </a>
             </p>
