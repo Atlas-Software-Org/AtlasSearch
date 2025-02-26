@@ -31,7 +31,7 @@ export function UserEntry(props: PartialUser) {
 function Wrapped() {
     return (
         <div class="center">
-            <Query f={() => timed(() => saveFetch('/api/v1/admin/userList', {}, userListSchema), 'userList')} queryKey="userList">
+            <Query f={() => timed(() => saveFetch('/api/v1/admin/userList', {}, userListSchema), 'v1/admin/userList')} queryKey="userList">
                 {([users]) => (
                     <div class="field sm:min-w-xl">
                         <table class="w-full p-2">

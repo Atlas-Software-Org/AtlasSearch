@@ -82,7 +82,7 @@ function Wrapped() {
                             },
                             uploadResultSchema
                         ),
-                    'changeProfilePicture'
+                    'v1/changeProfilePicture'
                 );
 
                 const [squared] = await timed(() => squareImage(file), 'squareImage');
@@ -104,7 +104,7 @@ function Wrapped() {
                             xhr.setRequestHeader('Authentication', prepared.uploadToken);
                             xhr.send(squared);
                         }),
-                    'upload'
+                    'uploadProfilePicture'
                 );
                 if (!success) {
                     throw new Error('Failed to upload file');

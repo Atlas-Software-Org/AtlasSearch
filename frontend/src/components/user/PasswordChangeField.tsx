@@ -21,7 +21,7 @@ function Wrapped() {
             () =>
                 timed(
                     () => saveFetch('/api/v1/changePassword', { method: 'POST', body: JSON.stringify({ oldPassword: oldPassword(), newPassword: newPassword() }) }),
-                    'changePassword'
+                    'v1/changePassword'
                 ),
             loading,
             true,

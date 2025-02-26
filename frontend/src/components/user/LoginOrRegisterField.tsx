@@ -24,7 +24,7 @@ function Wrapped(props: Props) {
         const mode = creationMode();
         const url = mode ? '/api/v1/register' : '/api/v1/login';
         withQuery(
-            () => timed(() => saveFetch(url, { method: 'POST', body: JSON.stringify({ username: username(), password: password() }) }), mode ? 'register' : 'login'),
+            () => timed(() => saveFetch(url, { method: 'POST', body: JSON.stringify({ username: username(), password: password() }) }), mode ? 'v1/register' : 'v1/login'),
             loading,
             true,
             () => {

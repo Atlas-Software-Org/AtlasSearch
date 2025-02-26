@@ -37,7 +37,7 @@ function TimingChart(props: { data: TimingAverageEntry[]; key: string }) {
 
 export default function () {
     return (
-        <Query f={() => timed(() => saveFetch('/api/v1/admin/timingAverage', {}, timingsAveragesSchema), 'timingAverage')}>
+        <Query f={() => timed(() => saveFetch('/api/v1/admin/timingAverage', {}, timingsAveragesSchema), 'v1/admin/timingAverage')}>
             {([history]) => <For each={Object.keys(history)}>{(key) => <TimingChart data={history[key].toReversed()} key={key} />}</For>}
         </Query>
     );

@@ -13,7 +13,7 @@ function Provider(props: { children: JSX.Element; user: User | undefined }) {
 
 function Wrapped(props: { children: JSX.Element; inlineLoading: boolean }) {
     return (
-        <Query f={() => timed(() => saveFetch('/api/v1/info', {}, userSchema).catch(() => undefined), 'userInfo')} inlineLoading={props.inlineLoading} queryKey="user">
+        <Query f={() => timed(() => saveFetch('/api/v1/info', {}, userSchema).catch(() => undefined), 'v1/info')} inlineLoading={props.inlineLoading} queryKey="user">
             {([user]) => <Provider user={user} children={props.children} />}
         </Query>
     );

@@ -51,7 +51,7 @@ function CrawlHistoryTableEntry(props: CrawlHistoryEntry) {
 export default function () {
     return (
         <div class="center">
-            <Query f={() => timed(() => saveFetch('/api/v1/admin/crawlHistory', {}, crawlHistorySchema), 'crawlHistory')}>
+            <Query f={() => timed(() => saveFetch('/api/v1/admin/crawlHistory', {}, crawlHistorySchema), 'v1/admin/crawlHistory')}>
                 {([history]) => (
                     <div class="field">
                         <table class="w-full p-2">

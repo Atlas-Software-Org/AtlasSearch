@@ -30,7 +30,7 @@ function Wrapped() {
 
     const submit = () => {
         withQuery(
-            () => timed(() => saveFetch('/api/v1/crawl?l=' + encodeURIComponent(url()), {}, crawlResultSchema), 'crawl'),
+            () => timed(() => saveFetch('/api/v1/crawl?l=' + encodeURIComponent(url()), {}, crawlResultSchema), 'v1/crawl'),
             loading,
             true,
             ([status]) => {

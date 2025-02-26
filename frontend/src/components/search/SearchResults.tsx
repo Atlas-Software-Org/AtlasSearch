@@ -35,7 +35,7 @@ export default function () {
 
     const page = parseInt(new URLSearchParams(window.location.search).get('page') ?? '0');
     return (
-        <Query f={() => timed(() => saveFetch('/api/v1/search?' + encodeParams(page), {}, searchResultsSchema), 'search')}>
+        <Query f={() => timed(() => saveFetch('/api/v1/search?' + encodeParams(page), {}, searchResultsSchema), 'v1/search')}>
             {([results, time]) => (
                 <>
                     <For each={results}>

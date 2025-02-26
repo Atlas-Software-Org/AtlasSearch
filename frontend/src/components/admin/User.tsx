@@ -17,7 +17,7 @@ function UserButtons(props: User) {
 
     const deleteUser = () => {
         withQuery(
-            () => timed(() => saveFetch('/api/v1/admin/deleteUser?u=' + encodeURIComponent(props.username)), 'deleteUser'),
+            () => timed(() => saveFetch('/api/v1/admin/deleteUser?u=' + encodeURIComponent(props.username)), 'v1/admin/deleteUser'),
             loading,
             true,
             () => query.refetch('userList')
@@ -33,7 +33,7 @@ function UserButtons(props: User) {
                             method: 'POST',
                             body: JSON.stringify({ username: props.username, isAdministrator, isPremiumUser }),
                         }),
-                    'changeUserMetadata'
+                    'v1/admin/changeUserMetadata'
                 ),
             loading,
             true,
@@ -87,7 +87,7 @@ function UserButtons(props: User) {
 
 export default function (props: Props) {
     return (
-        <Query f={() => timed(() => saveFetch('/api/v1/admin/user?u=' + encodeURIComponent(props.username), {}, userSchema), 'adminUser')} queryKey="adminUser">
+        <Query f={() => timed(() => saveFetch('/api/v1/admin/user?u=' + encodeURIComponent(props.username), {}, userSchema), 'v1/admin/user')} queryKey="adminUser">
             {([user]) => (
                 <>
                     <div class="center flex-col">
