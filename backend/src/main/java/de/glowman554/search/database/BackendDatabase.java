@@ -4,7 +4,9 @@ import de.glowman554.search.BaseDatabaseConnection;
 import de.glowman554.search.DatabaseConfig;
 import de.glowman554.search.data.SearchResult;
 import de.glowman554.search.data.TimingAverageEntry;
+import de.glowman554.search.data.WebPage;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,14 +38,21 @@ public class BackendDatabase extends BaseDatabaseConnection {
         }, resultSet -> {
             ArrayList<SearchResult> results = new ArrayList<>();
             while (resultSet.next()) {
-                results.add(new SearchResult(
-                        resultSet.getString("link"),
-                        resultSet.getString("title"),
-                        resultSet.getString("description"),
-                        resultSet.getString("shortText"),
-                        resultSet.getDouble("score")));
+                results.add(new SearchResult(resultSet.getString("link"), resultSet.getString("title"), resultSet.getString("description"), resultSet.getString("shortText"), resultSet.getDouble("score")));
             }
             return results;
+        });
+    }
+
+    public WebPage loadWebPage(String link) {
+        return tryExecute("SELECT link, title, content, description, keywords, shortText, timestamp FROM webPages WHERE link = ?", statement -> {
+            statement.setString(1, link);
+            statement.execute();
+        }, resultSet -> {
+            if (resultSet.next()) {
+                return new WebPage(resultSet.getString("link"), resultSet.getString("title"), resultSet.getString("content"), resultSet.getString("description"), resultSet.getString("keywords"), resultSet.getString("shortText"), resultSet.getTimestamp("timestamp"));
+            }
+            return null;
         });
     }
 
@@ -61,9 +70,7 @@ public class BackendDatabase extends BaseDatabaseConnection {
                 select floor(avg(duration)) as latency, timingKey, year(timestamp) as y, month(timestamp) as m, day(timestamp) as d
                 from timingEvents group by timingKey, year(timestamp), month(timestamp), day(timestamp)
                 order by year(timestamp), month(timestamp), day(timestamp) desc;
-                """, statement -> {
-            statement.execute();
-        }, resultSet -> {
+                """, PreparedStatement::execute, resultSet -> {
             HashMap<String, ArrayList<TimingAverageEntry>> events = new HashMap<>();
             while (resultSet.next()) {
                 String key = resultSet.getString("timingKey");

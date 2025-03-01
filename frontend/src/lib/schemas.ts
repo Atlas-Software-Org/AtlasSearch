@@ -73,3 +73,8 @@ export const aiAnswerSchema = z.object({
     answer: z.string(),
 });
 export type AiAnswer = z.infer<typeof aiAnswerSchema>;
+
+export const aiSummarySchema = z.object({
+    summary: z.string(),
+});
+export type AiSummary = z.infer<typeof aiSummarySchema>;

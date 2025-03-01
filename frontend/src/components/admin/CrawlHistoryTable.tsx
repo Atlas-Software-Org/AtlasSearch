@@ -30,7 +30,7 @@ function CrawlHistoryTableEntry(props: CrawlHistoryEntry) {
                     {props.username}
                 </td>
                 <td class="pr-2">
-                    <a href="{props.url}" class="text-blue-400">
+                    <a href="{props.url}" class="break-all text-blue-400">
                         {props.url}
                     </a>
                 </td>

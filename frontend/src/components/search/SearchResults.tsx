@@ -5,6 +5,7 @@ import { type SearchResult, searchResultsSchema } from '../../lib/schemas';
 import { timed } from '../../lib/timed';
 import AiAnswer from './AiAnswer';
 import UserProvider from '../user/UserProvider';
+import AiSummary from './AiSummary';
 
 function SearchResultContainer(props: SearchResult) {
     return (
@@ -22,6 +23,7 @@ function SearchResultContainer(props: SearchResult) {
             <small class="max-sm:hidden">
                 <a href={'/api/v1/redirect?l=' + props.link}>{props.link}</a>
             </small>
+            <AiSummary link={props.link} />
             <p>
                 <Show when={props.description} fallback={<>{props.shortText}</>}>
                     {props.description}
@@ -40,42 +42,42 @@ export default function () {
         <>
             <UserProvider>
                 <AiAnswer query={q} />
-            </UserProvider>
 
-            <Query f={() => timed(() => saveFetch('/api/v1/search?' + encodeParams(page), {}, searchResultsSchema), 'v1/search')}>
-                {([results, time]) => (
-                    <>
-                        <For each={results}>
-                            {(result) => (
-                                <div class="max-sm:flex max-sm:items-center max-sm:justify-center">
-                                    <SearchResultContainer {...result} />
-                                </div>
-                            )}
-                        </For>
+                <Query f={() => timed(() => saveFetch('/api/v1/search?' + encodeParams(page), {}, searchResultsSchema), 'v1/search')}>
+                    {([results, time]) => (
+                        <>
+                            <For each={results}>
+                                {(result) => (
+                                    <div class="max-sm:flex max-sm:items-center max-sm:justify-center">
+                                        <SearchResultContainer {...result} />
+                                    </div>
+                                )}
+                            </For>
 
-                        <div class="center">
-                            <div class="flex items-center justify-between sm:rounded-xl sm:bg-neutral-500/80 sm:p-2">
-                                <Show
-                                    when={page > 0}
-                                    fallback={
-                                        <a href="#" class="button w-40 text-center">
+                            <div class="center">
+                                <div class="flex items-center justify-between sm:rounded-xl sm:bg-neutral-500/80 sm:p-2">
+                                    <Show
+                                        when={page > 0}
+                                        fallback={
+                                            <a href="#" class="button w-40 text-center">
+                                                Previous
+                                            </a>
+                                        }
+                                    >
+                                        <a href={'/search?' + encodeParams(page - 1)} class="button w-40 text-center">
                                             Previous
                                         </a>
-                                    }
-                                >
-                                    <a href={'/search?' + encodeParams(page - 1)} class="button w-40 text-center">
-                                        Previous
+                                    </Show>
+                                    <p class="mr-4 ml-4 max-sm:hidden">Search took {time}ms</p>
+                                    <a href={'/search?' + encodeParams(page + 1)} class="button w-40 text-center">
+                                        Next
                                     </a>
-                                </Show>
-                                <p class="mr-4 ml-4 max-sm:hidden">Search took {time}ms</p>
-                                <a href={'/search?' + encodeParams(page + 1)} class="button w-40 text-center">
-                                    Next
-                                </a>
+                                </div>
                             </div>
-                        </div>
-                    </>
-                )}
-            </Query>
+                        </>
+                    )}
+                </Query>
+            </UserProvider>
         </>
     );
 }
