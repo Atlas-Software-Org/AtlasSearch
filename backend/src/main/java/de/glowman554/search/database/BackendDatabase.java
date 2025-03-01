@@ -11,7 +11,6 @@ import java.util.HashMap;
 
 public class BackendDatabase extends BaseDatabaseConnection {
     private final int resultsPerPage = 10;
-    private final int latenciesToLoad = 30;
 
     public final HistoryDatabase history;
     public final UserDatabase users;
@@ -61,9 +60,8 @@ public class BackendDatabase extends BaseDatabaseConnection {
         return tryExecute("""
                 select floor(avg(duration)) as latency, timingKey, year(timestamp) as y, month(timestamp) as m, day(timestamp) as d
                 from timingEvents group by timingKey, year(timestamp), month(timestamp), day(timestamp)
-                order by year(timestamp), month(timestamp), day(timestamp) desc limit ?;
+                order by year(timestamp), month(timestamp), day(timestamp) desc;
                 """, statement -> {
-            statement.setInt(1, latenciesToLoad);
             statement.execute();
         }, resultSet -> {
             HashMap<String, ArrayList<TimingAverageEntry>> events = new HashMap<>();
