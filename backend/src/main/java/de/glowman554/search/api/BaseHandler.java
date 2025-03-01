@@ -40,4 +40,12 @@ public abstract class BaseHandler implements Handler {
         }
         return user;
     }
+
+    public User premium(Context context) {
+        User user = authenticated(context, true);
+        if (!user.isPremiumUser()) {
+            throw new MutedException("You are not a premium user");
+        }
+        return user;
+    }
 }

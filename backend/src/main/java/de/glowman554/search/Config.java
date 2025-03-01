@@ -20,6 +20,9 @@ public class Config extends ConfigFile {
     @Saved
     private String unsplashToken = "";
 
+    @Saved
+    private String openAiToken = "";
+
     public Config() {
         super(new File("config.json"));
     }
@@ -38,6 +41,10 @@ public class Config extends ConfigFile {
 
     public String getUnsplashToken() {
         return unsplashToken;
+    }
+
+    public String getOpenAiToken() {
+        return openAiToken;
     }
 
     public static class WebserverConfig extends AutoSavable {

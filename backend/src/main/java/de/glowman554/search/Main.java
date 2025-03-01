@@ -13,6 +13,7 @@ import de.glowman554.search.utils.MutedException;
 import de.glowman554.search.utils.config.DateProcessor;
 import de.glowman554.search.utils.config.FileProcessor;
 import de.glowman554.search.utils.filething.FileThingApi;
+import de.glowman554.search.utils.openai.ChatApi;
 import de.glowman554.search.utils.unsplash.UnsplashApi;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
@@ -32,6 +33,7 @@ public class Main {
     private static Crawler crawler;
     private static FileThingApi fileThingApi;
     private static UnsplashApi unsplashApi;
+    private static ChatApi chatApi;
 
     public static void main(String[] args) throws SQLException {
         loadCustomTypes();
@@ -45,6 +47,7 @@ public class Main {
         userManager = new UserManager(database);
         fileThingApi = new FileThingApi(config.getFileThing().getUploadServer(), config.getFileThing().getAuthToken());
         unsplashApi = new UnsplashApi(config.getUnsplashToken());
+        chatApi = new ChatApi(config.getOpenAiToken());
 
         initCrawler(database);
         initApiServer(config);
@@ -144,6 +147,10 @@ public class Main {
 
     public static UnsplashApi getUnsplashApi() {
         return unsplashApi;
+    }
+
+    public static ChatApi getChatApi() {
+        return chatApi;
     }
 
     public static Crawler getCrawler() {

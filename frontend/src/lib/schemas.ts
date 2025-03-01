@@ -67,3 +67,8 @@ export type CrawlHistoryEntry = z.infer<typeof crawlHistoryEntrySchema>;
 
 export const crawlHistorySchema = z.array(crawlHistoryEntrySchema);
 export type CrawlHistory = z.infer<typeof crawlHistorySchema>;
+
+export const aiAnswerSchema = z.object({
+    answer: z.string(),
+});
+export type AiAnswer = z.infer<typeof aiAnswerSchema>;

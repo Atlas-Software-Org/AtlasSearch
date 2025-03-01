@@ -1,8 +1,8 @@
 package de.glowman554.search.user;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import de.glowman554.search.database.BackendDatabase;
 import de.glowman554.search.data.User;
+import de.glowman554.search.database.BackendDatabase;
 
 import java.security.SecureRandom;
 import java.sql.SQLException;

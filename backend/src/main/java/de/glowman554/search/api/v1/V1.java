@@ -1,6 +1,7 @@
 package de.glowman554.search.api.v1;
 
 import de.glowman554.search.api.v1.admin.V1Admin;
+import de.glowman554.search.api.v1.ai.V1Ai;
 import io.javalin.Javalin;
 
 public class V1 {
@@ -18,5 +19,6 @@ public class V1 {
         app.get("/api/v1/crawl", new CrawlEndpoint());
 
         V1Admin.register(app);
+        V1Ai.register(app);
     }
 }

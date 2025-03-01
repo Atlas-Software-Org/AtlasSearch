@@ -3,6 +3,8 @@ import Query from '../base/query/Query';
 import { saveFetch } from '../../lib/safeFetch';
 import { type SearchResult, searchResultsSchema } from '../../lib/schemas';
 import { timed } from '../../lib/timed';
+import AiAnswer from './AiAnswer';
+import UserProvider from '../user/UserProvider';
 
 function SearchResultContainer(props: SearchResult) {
     return (
@@ -35,39 +37,45 @@ export default function () {
 
     const page = parseInt(new URLSearchParams(window.location.search).get('page') ?? '0');
     return (
-        <Query f={() => timed(() => saveFetch('/api/v1/search?' + encodeParams(page), {}, searchResultsSchema), 'v1/search')}>
-            {([results, time]) => (
-                <>
-                    <For each={results}>
-                        {(result) => (
-                            <div class="max-sm:flex max-sm:items-center max-sm:justify-center">
-                                <SearchResultContainer {...result} />
-                            </div>
-                        )}
-                    </For>
+        <>
+            <UserProvider>
+                <AiAnswer query={q} />
+            </UserProvider>
 
-                    <div class="center">
-                        <div class="flex items-center justify-between sm:rounded-xl sm:bg-neutral-500/80 sm:p-2">
-                            <Show
-                                when={page > 0}
-                                fallback={
-                                    <a href="#" class="button w-40 text-center">
+            <Query f={() => timed(() => saveFetch('/api/v1/search?' + encodeParams(page), {}, searchResultsSchema), 'v1/search')}>
+                {([results, time]) => (
+                    <>
+                        <For each={results}>
+                            {(result) => (
+                                <div class="max-sm:flex max-sm:items-center max-sm:justify-center">
+                                    <SearchResultContainer {...result} />
+                                </div>
+                            )}
+                        </For>
+
+                        <div class="center">
+                            <div class="flex items-center justify-between sm:rounded-xl sm:bg-neutral-500/80 sm:p-2">
+                                <Show
+                                    when={page > 0}
+                                    fallback={
+                                        <a href="#" class="button w-40 text-center">
+                                            Previous
+                                        </a>
+                                    }
+                                >
+                                    <a href={'/search?' + encodeParams(page - 1)} class="button w-40 text-center">
                                         Previous
                                     </a>
-                                }
-                            >
-                                <a href={'/search?' + encodeParams(page - 1)} class="button w-40 text-center">
-                                    Previous
+                                </Show>
+                                <p class="mr-4 ml-4 max-sm:hidden">Search took {time}ms</p>
+                                <a href={'/search?' + encodeParams(page + 1)} class="button w-40 text-center">
+                                    Next
                                 </a>
-                            </Show>
-                            <p class="mr-4 ml-4 max-sm:hidden">Search took {time}ms</p>
-                            <a href={'/search?' + encodeParams(page + 1)} class="button w-40 text-center">
-                                Next
-                            </a>
+                            </div>
                         </div>
-                    </div>
-                </>
-            )}
-        </Query>
+                    </>
+                )}
+            </Query>
+        </>
     );
 }
