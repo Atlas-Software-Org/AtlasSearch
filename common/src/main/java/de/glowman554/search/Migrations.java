@@ -98,5 +98,9 @@ public class Migrations {
         new Migration("crawler_requests_add_status", (_, statement) -> {
             statement.execute("alter table `crawlRequests` add column `status` varchar(100) NOT NULL DEFAULT 'unknown'");
         }, connection);
+
+        new Migration("user_should_use_ai", (_, statement) -> {
+            statement.execute("alter table `users` add column `shouldUseAi` tinyint(1) NOT NULL DEFAULT '1'");
+        }, connection);
     }
 }

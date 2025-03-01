@@ -4,7 +4,6 @@ import de.glowman554.search.Main;
 import de.glowman554.search.api.BaseHandler;
 import de.glowman554.search.data.SearchResult;
 import de.glowman554.search.data.User;
-import de.glowman554.search.data.UserConfiguration;
 import io.javalin.http.Context;
 import net.shadew.json.JsonNode;
 import org.jetbrains.annotations.NotNull;
@@ -23,8 +22,7 @@ public class SearchEndpoint extends BaseHandler {
 
         User user = authenticated(ctx, false);
         if (user != null) {
-            UserConfiguration userConfiguration = Main.getDatabase().users.loadUserConfiguration(user.getUsername());
-            if (userConfiguration.shouldKeepHistory()) {
+            if (user.getConfiguration().shouldKeepHistory()) {
                 Main.getDatabase().history.insertSearchHistory(user.getUsername(), query);
             }
         }

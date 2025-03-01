@@ -34,7 +34,7 @@ public class UserDatabase extends BaseDatabaseConnection {
     }
 
     public User loadUser(String username) {
-        return tryExecute("SELECT username, profilePictureUrl, passwordHash, isAdministrator, isPremiumUser, shouldKeepHistory FROM users WHERE username = ?", statement -> {
+        return tryExecute("SELECT username, profilePictureUrl, passwordHash, isAdministrator, isPremiumUser, shouldKeepHistory, shouldUseAi FROM users WHERE username = ?", statement -> {
             statement.setString(1, username);
             statement.execute();
         }, resultSet -> {
@@ -42,13 +42,13 @@ public class UserDatabase extends BaseDatabaseConnection {
                 return null;
             }
 
-            UserConfiguration configuration = new UserConfiguration(resultSet.getBoolean("shouldKeepHistory"));
+            UserConfiguration configuration = new UserConfiguration(resultSet.getBoolean("shouldKeepHistory"), resultSet.getBoolean("shouldUseAi"));
             return new User(resultSet.getString("username"), resultSet.getString("profilePictureUrl"), resultSet.getString("passwordHash"), resultSet.getBoolean("isAdministrator"), resultSet.getBoolean("isPremiumUser"), configuration);
         });
     }
 
     public User loadUserByToken(String token) {
-        return tryExecute("SELECT users.username, profilePictureUrl, passwordHash, isAdministrator, isPremiumUser, shouldKeepHistory FROM users, userSessions WHERE users.username = userSessions.username AND token = ?", statement -> {
+        return tryExecute("SELECT users.username, profilePictureUrl, passwordHash, isAdministrator, isPremiumUser, shouldKeepHistory, shouldUseAi FROM users, userSessions WHERE users.username = userSessions.username AND token = ?", statement -> {
             statement.setString(1, token);
             statement.execute();
         }, resultSet -> {
@@ -56,7 +56,7 @@ public class UserDatabase extends BaseDatabaseConnection {
                 return null;
             }
 
-            UserConfiguration configuration = new UserConfiguration(resultSet.getBoolean("shouldKeepHistory"));
+            UserConfiguration configuration = new UserConfiguration(resultSet.getBoolean("shouldKeepHistory"), resultSet.getBoolean("shouldUseAi"));
             return new User(resultSet.getString("username"), resultSet.getString("profilePictureUrl"), resultSet.getString("passwordHash"), resultSet.getBoolean("isAdministrator"), resultSet.getBoolean("isPremiumUser"), configuration);
         });
     }
@@ -100,9 +100,9 @@ public class UserDatabase extends BaseDatabaseConnection {
         });
     }
 
-
+/*
     public UserConfiguration loadUserConfiguration(String username) {
-        return tryExecute("SELECT shouldKeepHistory FROM users WHERE username = ?", statement -> {
+        return tryExecute("SELECT shouldKeepHistory, shouldUseAi FROM users WHERE username = ?", statement -> {
             statement.setString(1, username);
             statement.execute();
         }, resultSet -> {
@@ -110,9 +110,10 @@ public class UserDatabase extends BaseDatabaseConnection {
                 return null;
             }
 
-            return new UserConfiguration(resultSet.getBoolean("shouldKeepHistory"));
+            return new UserConfiguration(resultSet.getBoolean("shouldKeepHistory"), resultSet.getBoolean("shouldUseAi"));
         });
     }
+*/
 
     public ArrayList<PartialUser> loadUserList() {
         return tryExecute("SELECT username, profilePictureUrl FROM users", PreparedStatement::execute, resultSet -> {

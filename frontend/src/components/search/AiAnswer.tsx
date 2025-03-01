@@ -13,7 +13,7 @@ export default function (props: Props) {
     const user = useContext(UserContext);
 
     return (
-        <Show when={user.user?.isPremiumUser}>
+        <Show when={user.user?.isPremiumUser && user.user?.configuration.shouldUseAi}>
             <div class="max-sm:flex max-sm:items-center max-sm:justify-center">
                 <div class="center m-4 w-fit flex-col rounded-lg bg-neutral-500/80 p-4 shadow-2xl max-sm:w-[90%] sm:float-right sm:mr-10 sm:max-w-[calc(50%-var(--spacing)*40)] sm:min-w-60">
                     <h2 class="pb-2 sm:text-2xl">

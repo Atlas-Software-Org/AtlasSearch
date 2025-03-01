@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const userConfigSchema = z.object({
     shouldKeepHistory: z.boolean(),
+    shouldUseAi: z.boolean(),
 });
 export type UserConfig = z.infer<typeof userConfigSchema>;
 
