@@ -23,7 +23,7 @@ public class RegisterEndpoint extends JsonHandler<UserAndPassword> {
         }
 
         String token = Main.getUserManager().registerAndCreateSession(instance.getUsername(), instance.getPassword());
-        context.cookie("Authentication", token);
+        context.cookie("Authentication", token, 604800);
 
         json(context, JsonNode.object().set("status", "success"));
     }
