@@ -12,13 +12,13 @@
     "dependencies": {
         "@astrojs/sitemap": "^3.2.1",
         "@astrojs/solid-js": "^5.0.4",
-        "@tailwindcss/vite": "^4.0.6",
-        "apexcharts": "^4.5.0",
-        "astro": "^5.3.0",
+        "@tailwindcss/vite": "^4.1.5",
+        "apexcharts": "^4.7.0",
+        "astro": "^5.7.10",
         "solid-apexcharts": "^0.4.0",
-        "solid-js": "^1.9.4",
-        "tailwindcss": "^4.0.6",
-        "zod": "^3.24.1"
+        "solid-js": "^1.9.6",
+        "tailwindcss": "^4.1.5",
+        "zod": "^3.24.3"
     },
     "devDependencies": {
         "@astrojs/check": "^0.9.4",

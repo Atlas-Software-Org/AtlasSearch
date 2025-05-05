@@ -20,7 +20,7 @@ function NotLoggedIn() {
                 <img class="ml-1 h-8 w-8 rounded-full bg-neutral-900" />
             </div>
             <Overlay visible={visible()} reset={() => setVisible(false)}>
-                <div class="field">
+                <div class="field ">
                     <LoginOrRegisterField />
                 </div>
             </Overlay>

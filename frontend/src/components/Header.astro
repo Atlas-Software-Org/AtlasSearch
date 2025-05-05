@@ -8,8 +8,17 @@ interface Props {
 const { user } = Astro.props;
 ---
 
-<header class="flex h-16 w-full items-center bg-neutral-700/75">
-    <h1 class="p-2 text-3xl text-nowrap"><a href="/">Atlas Search</a></h1>
-    <slot />
+<header class="flex items-center justify-between px-6 py-3 h-16 w-full bg-neutral-800/60 backdrop-blur-md shadow-md text-white ">
+    <!-- Logo -->
+    <a href="/" class="text-2xl sm:text-3xl font-bold hover:text-cyan-400 transition-all">
+        Atlas Search
+    </a>
+
+    <!-- Dynamic Content (Search, Nav etc.) -->
+    <div class="flex-1 mx-6">
+        <slot />
+    </div>
+
+    <!-- User Profile Icon -->
     <UserIcon client:load {...user} />
 </header>

@@ -31,7 +31,7 @@
 
 html,
 body {
-    background: var(--bg-url);
+    background-color: #111;
     @apply bg-cover bg-fixed bg-center bg-no-repeat;
     @apply m-0 h-full w-full;
     @apply text-white;

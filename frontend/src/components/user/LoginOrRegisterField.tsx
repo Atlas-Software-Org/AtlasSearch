@@ -34,23 +34,23 @@ function Wrapped(props: Props) {
     };
 
     return (
-        <form
+        <form class=''
             on:submit={(e) => {
                 e.preventDefault();
                 submit();
             }}
         >
             {props.children}
-            <table>
+            <table class=''>
                 <tbody>
                     <tr>
-                        <td class="pr-2 text-nowrap">Username</td>
+                        <td class="pr-2 text-nowrap">Username: </td>
                         <td class="w-full">
                             <input type="text" class="input w-full" onChange={(e) => setUsername(e.target.value)} value={username()} required />
                         </td>
                     </tr>
                     <tr>
-                        <td class="pr-2 text-nowrap">Password</td>
+                        <td class="pr-2 text-nowrap">Password: </td>
                         <td class="w-full">
                             <input type="password" class="input w-full" onInput={(e) => setPassword(e.target.value)} value={password()} required />
                         </td>

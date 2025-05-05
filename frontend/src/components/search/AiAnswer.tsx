@@ -17,7 +17,7 @@ export default function (props: Props) {
             <div class="max-sm:flex max-sm:items-center max-sm:justify-center">
                 <div class="center m-4 w-fit flex-col rounded-lg bg-neutral-500/80 p-4 shadow-2xl max-sm:w-[90%] sm:float-right sm:mr-10 sm:max-w-[calc(50%-var(--spacing)*40)] sm:min-w-60">
                     <h2 class="pb-2 sm:text-2xl">
-                        <b> Ai anser</b>
+                        <b> Ai answer</b>
                     </h2>
                     <Query
                         f={() => timed(() => saveFetch('/api/v1/ai/answer?q=' + encodeURIComponent(props.query), {}, aiAnswerSchema).catch(() => undefined), 'v1/ai/answer')}
