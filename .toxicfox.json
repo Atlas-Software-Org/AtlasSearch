@@ -1,0 +1,43 @@
+{
+    "build": [
+        {
+            "command": "mvn package",
+            "directory": "{{service}}"
+        },
+        {
+            "command": "npm run build",
+            "directory": "{{service}}/frontend"
+        },
+        {
+            "command": "sudo docker build -t glowman554/atlas-search .",
+            "directory": "{{service}}"
+        },
+        {
+            "command": "sudo docker build -t glowman554/atlas-crawler .",
+            "directory": "{{service}}/crawler"
+        }
+    ],
+    "containers": [
+        {
+            "name": "atlas-search",
+            "image": "glowman554/atlas-search",
+            "mounts": {
+                "{{base}}/data/AtlasSearch": "/srv"
+            },
+            "networks": [
+                "router",
+                "database"
+            ]
+        },
+        {
+            "name": "atlas-crawler",
+            "image": "glowman554/atlas-crawler",
+            "mounts": {
+                "{{base}}/data/AtlasSearch": "/srv"
+            },
+            "networks": [
+                "database"
+            ]
+        }
+    ]
+}

@@ -41,3 +41,4 @@ test_db/
 
 config.json
 crawler.json
+.keystore
