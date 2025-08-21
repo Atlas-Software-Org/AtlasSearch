@@ -17,7 +17,6 @@ import Header from '../components/Header.astro';
     'font-sans',
   ]}
 >
-  <Header />
 
   <!-- Improved gradient backgrounds with multiple elements for depth -->
   <div class="fixed inset-0 z-0">
@@ -28,6 +27,8 @@ import Header from '../components/Header.astro';
 
   <!-- Subtle grid pattern overlay -->
   <div class="fixed inset-0 bg-[url('/grid-pattern.svg')] bg-repeat opacity-5 z-0"></div>
+
+  <Header />
 
   <main class="z-10 flex flex-col items-center justify-center px-6 py-16 md:py-32 relative">
     <!-- Logo or branding element -->
